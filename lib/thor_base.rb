@@ -1,6 +1,14 @@
-require 'bmx_ruby'
+require 'bmx_api_ruby'
+
+module ThorHelpers
+  def under_construction
+    puts "Under Construction"
+  end
+end
 
 class ThorBase < Thor
+
+  include ThorHelpers
 
   CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
@@ -10,8 +18,5 @@ class ThorBase < Thor
     user_mail: ""                       ,
     user_pass: ""
   }
-
-  def under_construction
-    puts "Under Construction"
-  end
 end
+

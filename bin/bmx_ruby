@@ -4,14 +4,7 @@ require "rubygems"
 require "thor"
 require "pry"
 
-require_relative '../lib/cmd/config'
-require_relative '../lib/cmd/offer'
-require_relative '../lib/cmd/user'
-require_relative '../lib/cmd/contract'
-require_relative '../lib/cmd/escrow'
-require_relative '../lib/cmd/repo'
-require_relative '../lib/cmd/issue'
-require_relative '../lib/cmd/event'
+require_relative "../lib/bmx_cl_ruby"
 
 class BmxRuby < Thor
   desc "config SUBCOMMAND ...ARGS", "set BMX host and user credentials"
