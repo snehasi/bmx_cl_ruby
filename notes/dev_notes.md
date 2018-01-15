@@ -4,15 +4,16 @@
 
 - [x] first implementation
 
-- [ ] end-to-end execution
-- [ ] design for basic-auth
-- [ ] add a config command
-- [ ] add a ping command
+## Jan 14
+
+- [x] end-to-end execution
+- [x] design for basic-auth
+- [x] add a config command
+- [x] add a ping command
+- [x] publish bmx_ruby gem on github
+- [x] add install instructions
 
 ## TBD
-
-- [ ] publish bmx_ruby gem on github
-- [ ] add install instructions
 
 - [ ] add `help_all` command
 - [ ] add custom help ordering [stackof][help1]
