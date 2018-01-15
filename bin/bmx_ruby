@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "thor"
+require "pry"
+
+require_relative '../lib/cmd/config'
+require_relative '../lib/cmd/offer'
+require_relative '../lib/cmd/user'
+require_relative '../lib/cmd/contract'
+require_relative '../lib/cmd/escrow'
+require_relative '../lib/cmd/repo'
+require_relative '../lib/cmd/issue'
+require_relative '../lib/cmd/event'
+
+class BmxRuby < Thor
+  desc "config SUBCOMMAND ...ARGS", "set BMX host and user credentials"
+  subcommand "config", Config
+
+  desc "offer SUBCOMMAND ...ARGS", "manage offer"
+  subcommand "offer", Offer
+
+  desc "user SUBCOMMAND ...ARGS", "manage user"
+  subcommand "user", User
+  
+  desc "contract SUBCOMMAND ...ARGS", "manage contract"
+  subcommand "contract", Contract
+
+  desc "escrow SUBCOMMAND ...ARGS", "manage escrow"
+  subcommand "escrow", Escrow
+
+  desc "repo SUBCOMMAND ...ARGS", "manage repo"
+  subcommand "repo", Repo
+
+  desc "issue SUBCOMMAND ...ARGS", "manage issue"
+  subcommand "issue", Issue
+
+  desc "event SUBCOMMAND ...ARGS", "manage event"
+  subcommand "event", Event
+end
+
+BmxRuby.start(ARGV)
