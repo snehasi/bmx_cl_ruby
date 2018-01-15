@@ -5,8 +5,8 @@ Command-line Bugmark client.
 To install the gem:
 
     gem install specific_install
-    gem specific_install https://github.com/bugmark/bmx_api_ruby
-    gem specific_install https://github.com/bugmark/bmx_cl_ruby
+    gem specific_install http://github.com/bugmark/bmx_api_ruby
+    gem specific_install http://github.com/bugmark/bmx_cl_ruby
     
 To run the executable:
 
