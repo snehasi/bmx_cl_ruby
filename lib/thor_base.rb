@@ -4,11 +4,12 @@ require 'yaml'
 CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
 DEFAULTS = {
-  scheme:    "https"       ,
-  host:      "bugmark.net" ,
-  usermail:  ""            ,
-  password:  ""            ,
-  debugging: false
+  scheme:     "https"       ,
+  host:       "bugmark.net" ,
+  usermail:   ""            ,
+  password:   ""            ,
+  debugging:  false         ,
+  verify_ssl: true
 }
 
 class Thor
@@ -61,7 +62,7 @@ class Thor
       @config ||= BmxApiRuby::Configuration.new do |el|
         el.scheme    = cfg[:scheme]
         el.host      = cfg[:host]
-        el.username  = cfg[:username]
+        el.username  = cfg[:usermail]
         el.password  = cfg[:password]
         el.debugging = cfg[:debugging]
       end

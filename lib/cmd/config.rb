@@ -14,17 +14,18 @@ class Config < Thor
   end
 
   desc "set", "set configuration options"
-  option :scheme    , desc: "http or https"    , default: "https"
-  option :host      , desc: "host"             , default: "bugmark.net"
-  option :usermail  , desc: "User Email"       , default: ""
-  option :password  , desc: "User Password"    , default: ""
-  option :debugging , desc: "Enable Debugging" , default: false, type: :boolean
+  option :scheme    , desc: "http or https"
+  option :host      , desc: "Host"
+  option :usermail  , desc: "User Email"
+  option :password  , desc: "User Password"
+  option :debugging , desc: "Enable Debugging" , type: :boolean
+  option :verify_ssl, desc: "Verify SSL"       , type: :boolean
   long_desc <<~EOF
     Set configuration options.
 
     To execute a transaction on the Bugmark exchange, we require:
-      - user_uuid OR user_email
-      - user_password
+      - usermail
+      - password
 
     Options are stored in #{CFG_FILE}.
 
@@ -46,6 +47,7 @@ class Config < Thor
     Returns either "OK" or "Error (reason)"
   EOF
   def test
-    puts BmxApiRuby::Ping.new(client)
+    ping = BmxApiRuby::PingApi.new(client)
+    puts ping.get_ping.status
   end
 end
