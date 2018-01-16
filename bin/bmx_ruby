@@ -1,35 +1,5 @@
 #!/usr/bin/env ruby
 
-require "rubygems"
-require "thor"
-require "pry"
-
-require_relative "../lib/bmx_cl_ruby"
-
-class BmxRuby < Thor
-  desc "config SUBCOMMAND ...ARGS", "set BMX host and user credentials"
-  subcommand "config", Config
-
-  desc "user SUBCOMMAND ...ARGS", "manage user"
-  subcommand "user", User
-
-  desc "repo SUBCOMMAND ...ARGS", "manage repo"
-  subcommand "repo", Repo
-
-  desc "issue SUBCOMMAND ...ARGS", "manage issue"
-  subcommand "issue", Issue
-
-  desc "offer SUBCOMMAND ...ARGS", "manage offer"
-  subcommand "offer", Offer
-
-  desc "contract SUBCOMMAND ...ARGS", "manage contract"
-  subcommand "contract", Contract
-
-  desc "escrow SUBCOMMAND ...ARGS", "manage escrow"
-  subcommand "escrow", Escrow
-
-  desc "event SUBCOMMAND ...ARGS", "manage event"
-  subcommand "event", Event
-end
+require_relative "bmx_cl_ruby"
 
 BmxRuby.start(ARGV)
