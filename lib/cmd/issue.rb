@@ -1,13 +1,13 @@
 require 'thor'
 
 class Issue < Thor
-  desc "one", "one"
-  def one
-    puts "one"
+  desc "list", "list all issues"
+  def list
+    under_construction
   end
 
-  desc "two", "two"
-  def two
-    puts "two"
+  desc "show ISSUE_UUID", "show issue details"
+  def show(_issue_uuid)
+    under_construction
   end
 end

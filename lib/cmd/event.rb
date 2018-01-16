@@ -1,13 +1,18 @@
 require 'thor'
 
 class Event < Thor
-  desc "one", "one"
-  def one
-    puts "one"
+  desc "list", "list all events"
+  def list
+    under_construction
   end
 
-  desc "two", "two"
-  def two
-    puts "two"
+  desc "show EVENT_UUID", "show event details"
+  def show(_event_uuid)
+    under_construction
+  end
+
+  desc "update EVENT_UUID", "update event link"
+  def update(_event_uuid)
+    under_construction
   end
 end

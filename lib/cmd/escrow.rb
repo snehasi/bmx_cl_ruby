@@ -1,13 +1,8 @@
 require 'thor'
 
 class Escrow < Thor
-  desc "one", "one"
-  def one
-    puts "one"
-  end
-
-  desc "two", "two"
-  def two
-    puts "two"
+  desc "show ESCROW_UUID", "show escrow details"
+  def show(_escrow_uuid)
+    under_construction
   end
 end

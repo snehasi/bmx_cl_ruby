@@ -3,26 +3,31 @@ require 'thor'
 class Offer < Thor
   desc "list", "list open offers"
   def list
-    puts "Under Construction"
+    under_construction
   end
 
   desc "show OFFER_UUID", "show an offer"
-  def show(offer_uuid)
-    puts "Under Construction (#{offer_uuid})"
+  def show(_offer_uuid)
+    under_construction
   end
 
   desc "create_buy", "create a buy offer"
   def create_buy
-    puts "Under Construction"
+    under_construction
   end
 
   desc "create_sell", "create a sell offer"
   def create_sell
-    puts "Under Construction"
+    under_construction
+  end
+
+  desc "clone OFFER_UUID", "clone an offer"
+  def clone(_offer_uuid)
+    under_construction
   end
 
   desc "cancel OFFER_UUID", "cancel an offer"
-  def cancel(offer_uuid)
-    puts "Under Construction (#{offer_uuid})"
+  def cancel(_offer_uuid)
+    under_construction
   end
 end
