@@ -15,28 +15,28 @@ require_relative "./cmd/escrow"
 require_relative "./cmd/event"
 
 class BmxRuby < Thor
-  desc "config SUBCOMMAND ...ARGS", "set BMX host and user credentials"
+  desc "config SUBCOMMAND", "set BMX host and user credentials"
   subcommand "config", Config
 
-  desc "user SUBCOMMAND ...ARGS", "manage user"
+  desc "user SUBCOMMAND", "manage user"
   subcommand "user", User
 
-  desc "repo SUBCOMMAND ...ARGS", "manage repo"
+  desc "repo SUBCOMMAND", "manage repo"
   subcommand "repo", Repo
 
-  desc "issue SUBCOMMAND ...ARGS", "manage issue"
+  desc "issue SUBCOMMAND", "manage issue"
   subcommand "issue", Issue
 
-  desc "offer SUBCOMMAND ...ARGS", "manage offer"
+  desc "offer SUBCOMMAND", "manage offer"
   subcommand "offer", Offer
 
-  desc "contract SUBCOMMAND ...ARGS", "manage contract"
+  desc "contract SUBCOMMAND", "manage contract"
   subcommand "contract", Contract
 
-  desc "escrow SUBCOMMAND ...ARGS", "manage escrow"
+  desc "escrow SUBCOMMAND", "manage escrow"
   subcommand "escrow", Escrow
 
-  desc "event SUBCOMMAND ...ARGS", "manage event"
+  desc "event SUBCOMMAND", "manage event"
   subcommand "event", Event
 end
 

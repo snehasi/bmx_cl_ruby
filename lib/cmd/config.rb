@@ -4,7 +4,7 @@ require 'yaml'
 
 class Config < Thor
 
-  desc "show", "Show bmx_ruby config"
+  desc "show", "show bmx_ruby config"
   long_desc <<~EOF
     Show the current configuration.  Config file location is `#{CFG_FILE}`.
   EOF
@@ -13,7 +13,7 @@ class Config < Thor
     ap config
   end
 
-  desc "set", "Set configuration options"
+  desc "set", "set configuration options"
   option :host_url     , desc: "Host URL"
   option :user_uuid    , desc: "User UUID"
   option :user_email   , desc: "User Email"
@@ -39,7 +39,7 @@ class Config < Thor
     File.open(File.expand_path(CFG_FILE), 'w') {|f| f.puts args.to_yaml}
   end
 
-  desc "test", "Validate configuration options"
+  desc "test", "validate configuration options"
   long_desc <<~EOF
     Test configuration options.
 
