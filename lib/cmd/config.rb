@@ -1,11 +1,15 @@
 require 'thor'
+require 'awesome_print'
 
 class Config < ThorBase
 
-
   desc "show", "Show bmx_ruby config"
+  long_desc <<~EOF
+    Show the current configuration.  Config file location is `#{CFG_FILE}`.
+  EOF
   def show
     puts "Config File: #{CFG_FILE}"
+    ap config
   end
 
   desc "set", "Set configuration options"
