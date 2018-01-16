@@ -14,10 +14,11 @@ class Config < Thor
   end
 
   desc "set", "set configuration options"
-  option :host_url     , desc: "Host URL"
-  option :user_uuid    , desc: "User UUID"
-  option :user_email   , desc: "User Email"
-  option :user_password, desc: "User Password"
+  option :scheme    , desc: "http or https"    , default: "https"
+  option :host      , desc: "host"             , default: "bugmark.net"
+  option :usermail  , desc: "User Email"       , default: ""
+  option :password  , desc: "User Password"    , default: ""
+  option :debugging , desc: "Enable Debugging" , default: false, type: :boolean
   long_desc <<~EOF
     Set configuration options.
 
@@ -27,15 +28,14 @@ class Config < Thor
 
     Options are stored in #{CFG_FILE}.
 
-    The default host_url is #{config[:host_url]}
+    The current host is #{config[:host]}
   EOF
   def set
     args = config
-    args[:host_url]      = options[:host_url]      if options[:host_url]
-    args[:user_uuid]     = options[:user_uuid]     if options[:user_uuid]
-    args[:user_email]    = options[:user_email]    if options[:user_email]
-    args[:user_password] = options[:user_password] if options[:user_password]
-    puts args.to_yaml
+    %i(scheme host usermail password debugging).each do |sym|
+      args[sym] = options[sym] if options[sym]
+    end
+    ap args
     File.open(File.expand_path(CFG_FILE), 'w') {|f| f.puts args.to_yaml}
   end
 
@@ -46,6 +46,6 @@ class Config < Thor
     Returns either "OK" or "Error (reason)"
   EOF
   def test
-    under_construction
+    puts BmxApiRuby::Ping.new(client)
   end
 end

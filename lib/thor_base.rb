@@ -4,10 +4,11 @@ require 'yaml'
 CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
 DEFAULTS = {
-  host_url:      "https://bugmark.net"    ,
-  user_uuid:     ""                       ,
-  user_email:    ""                       ,
-  user_password: ""
+  scheme:    "https"       ,
+  host:      "bugmark.net" ,
+  usermail:  ""            ,
+  password:  ""            ,
+  debugging: false
 }
 
 class Thor
@@ -47,12 +48,24 @@ class Thor
   end
 
   no_commands do
+    def under_construction
+      puts "Under Construction"
+    end
+
     def config(file = CFG_FILE)
       self.class.config(file)
     end
 
-    def under_construction
-      puts "Under Construction"
+    def client
+      cfg = config
+      @config ||= BmxApiRuby::Configuration.new do |el|
+        el.scheme    = cfg[:scheme]
+        el.host      = cfg[:host]
+        el.username  = cfg[:username]
+        el.password  = cfg[:password]
+        el.debugging = cfg[:debugging]
+      end
+      @client ||= BmxApiRuby::ApiClient.new(@config)
     end
   end
 end

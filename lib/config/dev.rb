@@ -1,11 +1,11 @@
 require 'bmx_ruby'
 
 @config = BmxRuby::Configuration.new do |el|
-  el.scheme     = "http"
-  el.verify_ssl = false
-  el.debugging  = true
-  el.username   = "test1@bugmark.net"
-  el.password   = "bugmark"
+  el.scheme    = "https"
+  el.host      = "bugmark.net"
+  el.username  = "test1@bugmark.net"
+  el.password  = "bugmark"
+  el.debugging = true
 end
 
 @client = BmxRuby::ApiClient.new(@config)
@@ -13,4 +13,3 @@ end
 @events = BmxRuby::EventsApi.new(@client)
 
 @ev = @events
-
