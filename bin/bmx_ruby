@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative "bmx_cl_ruby"
+require_relative "../lib/bmx_ruby"
 
 BmxRuby.start(ARGV)
