@@ -4,14 +4,20 @@ require 'yaml'
 CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
 DEFAULTS = {
-  host_url:  "https://bugmark.net"    ,
-  user_uuid: ""                       ,
-  user_mail: ""                       ,
-  user_pass: ""
+  host_url:      "https://bugmark.net"    ,
+  user_uuid:     ""                       ,
+  user_email:    ""                       ,
+  user_password: ""
 }
 
 class Thor
   class << self
+    def config(file = CFG_FILE)
+      xaf = File.expand_path(file)
+      val = File.exist?(xaf) ? YAML.load_file(xaf) : {}
+      DEFAULTS.merge(val)
+    end
+
     def help(shell, subcommand = false)
       list = printable_commands(true, subcommand)
       Thor::Util.thor_classes_in(self).each do |klass|
@@ -39,21 +45,14 @@ class Thor
       shell.say 'Get command help with -h (or --help).'
     end
   end
-end
 
-module ThorHelpers
-  def under_construction
-    puts "Under Construction"
+  no_commands do
+    def config(file = CFG_FILE)
+      self.class.config(file)
+    end
+
+    def under_construction
+      puts "Under Construction"
+    end
   end
-
-  def config(file = CFG_FILE)
-    val = File.exist?(file) ? YAML.load_file(file) : {}
-    DEFAULTS.merge(val)
-  end
-end
-
-class ThorBase < Thor
-
-  include ThorHelpers
-
 end

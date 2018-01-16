@@ -1,7 +1,8 @@
 require 'thor'
 require 'awesome_print'
+require 'yaml'
 
-class Config < ThorBase
+class Config < Thor
 
   desc "show", "Show bmx_ruby config"
   long_desc <<~EOF
@@ -13,9 +14,9 @@ class Config < ThorBase
   end
 
   desc "set", "Set configuration options"
-  option :host_url  , desc: "Host URL"
-  option :user_uuid , desc: "User UUID"
-  option :user_email, desc: "User Email"
+  option :host_url     , desc: "Host URL"
+  option :user_uuid    , desc: "User UUID"
+  option :user_email   , desc: "User Email"
   option :user_password, desc: "User Password"
   long_desc <<~EOF
     Set configuration options.
@@ -24,12 +25,18 @@ class Config < ThorBase
       - user_uuid OR user_email
       - user_password
 
-    Options are stored in ~/.bmx_ruby.yaml.
+    Options are stored in #{CFG_FILE}.
 
-    The default host_url is https://bugmark.net.
+    The default host_url is #{config[:host_url]}
   EOF
   def set
-    under_construction
+    args = config
+    args[:host_url]      = options[:host_url]      if options[:host_url]
+    args[:user_uuid]     = options[:user_uuid]     if options[:user_uuid]
+    args[:user_email]    = options[:user_email]    if options[:user_email]
+    args[:user_password] = options[:user_password] if options[:user_password]
+    puts args.to_yaml
+    File.open(File.expand_path(CFG_FILE), 'w') {|f| f.puts args.to_yaml}
   end
 
   desc "test", "Validate configuration options"
