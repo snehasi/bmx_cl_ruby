@@ -10,7 +10,8 @@ class User < Thor
 
   desc "show USERMAIL", "show user information"
   def show(usermail)
-    under_construction
+    user = BmxApiRuby::UsersApi.new(client)
+    ap user.get_users_usermail(usermail).to_hash
   end
 
   desc "deposit USERMAIL AMOUNT", "deposit user tokens"
