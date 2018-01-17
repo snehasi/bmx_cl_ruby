@@ -8,8 +8,7 @@ DEFAULTS = {
   host:       "bugmark.net" ,
   usermail:   ""            ,
   password:   ""            ,
-  debugging:  false         ,
-  verify_ssl: true
+  debugging:  false
 }
 
 class Thor

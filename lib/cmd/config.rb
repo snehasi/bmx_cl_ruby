@@ -19,7 +19,6 @@ class Config < Thor
   option :usermail  , desc: "User Email"
   option :password  , desc: "User Password"
   option :debugging , desc: "Enable Debugging" , type: :boolean
-  option :verify_ssl, desc: "Verify SSL"       , type: :boolean
   long_desc <<~EOF
     Set configuration options.
 
