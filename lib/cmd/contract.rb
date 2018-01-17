@@ -6,15 +6,17 @@ class Contract < Thor
     Return summary information for all open contracts.
   EOF
   def list
-    under_construction
+    list = BmxApiRuby::ContractsApi.new(client)
+    ap list.get_contracts.map {|contract| contract.to_hash}
   end
 
   desc "show CONTRACT_UUID", "show contract details"
   long_desc <<~EOF
     Show all information for a single contract.
   EOF
-  def show(_contract_uuid)
-    under_construction
+  def show(contract_uuid)
+    contract = BmxApiRuby::ContractsApi.new(client)
+    ap contract.get_contracts_uuid(contract_uuid).to_hash
   end
 
   desc "clone CONTRACT_UUID", "clone contract"

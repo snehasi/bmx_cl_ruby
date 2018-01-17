@@ -12,6 +12,7 @@ require_relative "./cmd/issue"
 require_relative "./cmd/offer"
 require_relative "./cmd/contract"
 require_relative "./cmd/escrow"
+require_relative "./cmd/position"
 require_relative "./cmd/event"
 
 class BmxRuby < Thor

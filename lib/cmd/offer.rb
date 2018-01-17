@@ -3,12 +3,14 @@ require 'thor'
 class Offer < Thor
   desc "list", "list open offers"
   def list
-    under_construction
+    list = BmxApiRuby::OffersApi.new(client)
+    ap list.get_offers.map {|offer| offer.to_hash}
   end
 
   desc "show OFFER_UUID", "show an offer"
-  def show(_offer_uuid)
-    under_construction
+  def show(offer_uuid)
+    offer = BmxApiRuby::OffersApi.new(client)
+    ap offer.get_offers_uuid(offer_uuid).to_hash
   end
 
   desc "create_buy", "create a buy offer"
