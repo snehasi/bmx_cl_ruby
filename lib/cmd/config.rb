@@ -15,17 +15,20 @@ class Config < ThorBase
   desc "set", "set configuration options"
   option :scheme    , desc: "http or https"
   option :host      , desc: "Host"
-  option :usermail  , desc: "User Email"
-  option :password  , desc: "User Password"
+  option :usermail  , desc: "Default User Email"
+  option :password  , desc: "Default User Password"
   option :debugging , desc: "Enable Debugging" , type: :boolean
   long_desc <<~EOF
-    Set configuration options.
+    Set configuration values.
 
     To execute a transaction on the Bugmark exchange, we require:
       - usermail
       - password
 
-    Options are stored in #{CFG_FILE}.
+    You can set a default username/password in the configation, 
+    and override these values with the --userspec option.
+
+    Configuration settings are stored in #{CFG_FILE}.
 
     The current host is #{config[:host]}
   EOF
