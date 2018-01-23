@@ -73,16 +73,26 @@ class Thor
       @config ||= BmxApiRuby::Configuration.new do |el|
         el.scheme    = cfg[:scheme]
         el.host      = cfg[:host]
-        el.username  = cfg[:usermail]
-        el.password  = cfg[:password]
+        el.username  = usr(cfg)
+        el.password  = pwd(cfg)
         el.debugging = cfg[:debugging]
       end
       @client ||= BmxApiRuby::ApiClient.new(@config)
+    end
+
+    def usr(cfg)
+      return [:usermail] unless options[:userspec]
+      options[:userspec].split(':').first
+    end
+
+    def pwd(cfg)
+      return cfg[:password] unless options[:userspec]
+      options[:userspec].split(':').last
     end
   end
 end
 
 class ThorBase < Thor
   class_option :color   , :desc => "Enable color output", :type => :boolean
-  class_option :userspec, :desc => "<user email>:<user password>"
+  class_option :userspec, :desc => "<email>:<password> (overrides config)"
 end
