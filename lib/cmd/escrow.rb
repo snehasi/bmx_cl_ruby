@@ -1,9 +1,7 @@
-require 'thor'
-
-class Escrow < Thor
+class Escrow < ThorBase
   desc "show ESCROW_UUID", "show escrow details"
   def show(escrow_uuid)
     escrow = BmxApiRuby::EscrowsApi.new(client)
-    ap escrow.get_escrows_uuid(escrow_uuid).to_hash
+    output escrow.get_escrows_uuid(escrow_uuid).to_hash
   end
 end

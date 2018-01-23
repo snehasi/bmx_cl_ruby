@@ -1,6 +1,4 @@
-require 'thor'
-
-class User < Thor
+class User < ThorBase
   option :usermail , desc: "USERMAIL"   , required: true
   option :password , desc: "PASSWORD", required: true
   desc "create", "create a user"
@@ -11,7 +9,7 @@ class User < Thor
   desc "show USERMAIL", "show user information"
   def show(usermail)
     user = BmxApiRuby::UsersApi.new(client)
-    ap user.get_users_usermail(usermail).to_hash
+    output user.get_users_usermail(usermail).to_hash
   end
 
   desc "deposit USERMAIL AMOUNT", "deposit user tokens"

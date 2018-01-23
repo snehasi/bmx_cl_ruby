@@ -1,5 +1,8 @@
 require 'bmx_api_ruby'
+require 'awesome_print'
+require 'thor'
 require 'yaml'
+require 'json'
 
 CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
@@ -13,6 +16,7 @@ DEFAULTS = {
 
 class Thor
   class << self
+
     def config(file = CFG_FILE)
       xaf = File.expand_path(file)
       val = File.exist?(xaf) ? YAML.load_file(xaf) : {}
@@ -56,6 +60,14 @@ class Thor
       self.class.config(file)
     end
 
+    def output(data)
+      if options[:color]
+        ap data
+      else
+        puts JSON.pretty_generate(data)
+      end
+    end
+
     def client
       cfg = config
       @config ||= BmxApiRuby::Configuration.new do |el|
@@ -68,4 +80,9 @@ class Thor
       @client ||= BmxApiRuby::ApiClient.new(@config)
     end
   end
+end
+
+class ThorBase < Thor
+  class_option :color   , :desc => "Enable color output", :type => :boolean
+  class_option :userspec, :desc => "<user email>:<user password>"
 end

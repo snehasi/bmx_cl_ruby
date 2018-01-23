@@ -1,9 +1,7 @@
-require 'thor'
-
-class Position < Thor
+class Position < ThorBase
   desc "show POSITION_UUID", "show position details"
   def show(position_uuid)
     position = BmxApiRuby::PositionsApi.new(client)
-    ap position.get_positions_uuid(position_uuid).to_hash
+    output position.get_positions_uuid(position_uuid).to_hash
   end
 end

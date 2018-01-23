@@ -1,8 +1,7 @@
-require 'thor'
 require 'awesome_print'
 require 'yaml'
 
-class Config < Thor
+class Config < ThorBase
 
   desc "show", "show bmx_ruby config"
   long_desc <<~EOF
@@ -10,7 +9,7 @@ class Config < Thor
   EOF
   def show
     puts "Config File: #{CFG_FILE}"
-    ap config
+    output config
   end
 
   desc "set", "set configuration options"
@@ -35,7 +34,7 @@ class Config < Thor
     %i(scheme host usermail password debugging).each do |sym|
       args[sym] = options[sym] if options[sym]
     end
-    ap args
+    output args
     File.open(File.expand_path(CFG_FILE), 'w') {|f| f.puts args.to_yaml}
   end
 

@@ -1,6 +1,4 @@
-require 'thor'
-
-class Event < Thor
+class Event < ThorBase
   desc "list", "list all events"
   def list
     under_construction
