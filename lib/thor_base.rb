@@ -71,22 +71,22 @@ class Thor
     def client
       cfg = config
       @config ||= BmxApiRuby::Configuration.new do |el|
-        el.scheme    = cfg[:scheme]
-        el.host      = cfg[:host]
+        el.scheme    = cfg["scheme"]
+        el.host      = cfg["host"]
         el.username  = usr(cfg)
         el.password  = pwd(cfg)
-        el.debugging = cfg[:debugging]
+        el.debugging = cfg["debugging"]
       end
       @client ||= BmxApiRuby::ApiClient.new(@config)
     end
 
     def usr(cfg)
-      return cfg[:usermail] unless options[:userspec]
+      return cfg["usermail"] unless options[:userspec]
       options[:userspec].split(':').first
     end
 
     def pwd(cfg)
-      return cfg[:password] unless options[:userspec]
+      return cfg["password"] unless options[:userspec]
       options[:userspec].split(':').last
     end
   end
