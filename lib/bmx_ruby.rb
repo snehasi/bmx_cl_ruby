@@ -33,6 +33,9 @@ class BmxRuby < Thor
   desc "contract SUBCOMMAND", "manage contract"
   subcommand "contract", Contract
 
+  desc "position SUBCOMMAND", "manage position"
+  subcommand "position", Position
+
   desc "escrow SUBCOMMAND", "manage escrow"
   subcommand "escrow", Escrow
 

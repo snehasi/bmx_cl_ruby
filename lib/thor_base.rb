@@ -7,11 +7,11 @@ require 'json'
 CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
 DEFAULTS = {
-  scheme:     "https"       ,
-  host:       "bugmark.net" ,
-  usermail:   ""            ,
-  password:   ""            ,
-  debugging:  false
+  "scheme"    => "https"       ,
+  "host"      => "bugmark.net" ,
+  "usermail"  => ""            ,
+  "password"  => ""            ,
+  "debugging" => false
 }
 
 class Thor
@@ -20,7 +20,7 @@ class Thor
     def config(file = CFG_FILE)
       xaf = File.expand_path(file)
       val = File.exist?(xaf) ? YAML.load_file(xaf) : {}
-      DEFAULTS.merge(val)
+      DEFAULTS.merge(Hash[val.map {|k,v| [k.to_s, v]}])
     end
 
     def help(shell, subcommand = false)
@@ -81,7 +81,7 @@ class Thor
     end
 
     def usr(cfg)
-      return [:usermail] unless options[:userspec]
+      return cfg[:usermail] unless options[:userspec]
       options[:userspec].split(':').first
     end
 

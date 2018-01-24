@@ -1,6 +1,8 @@
+require 'pry'
+
 class User < ThorBase
-  option :usermail , desc: "USERMAIL"   , required: true
-  option :password , desc: "PASSWORD", required: true
+  option :usermail , desc: "USERMAIL" , required: true
+  option :password , desc: "PASSWORD" , required: true
   desc "create", "create a user"
   def create
     under_construction
@@ -12,13 +14,15 @@ class User < ThorBase
     output user.get_users_usermail(usermail).to_hash
   end
 
-  desc "deposit USERMAIL AMOUNT", "deposit user tokens"
-  def deposit(usermail, _amount)
-    under_construction
+  desc "deposit UUID AMOUNT", "deposit user tokens"
+  def deposit(uuid, amount)
+    user = BmxApiRuby::UsersApi.new(client)
+    output user.put_users_uuid_deposit(amount, uuid)
   end
 
-  desc "withdraw USERMAIL AMOUNT", "withdraw user tokens"
-  def withdraw(usermail,  _amount)
-    under_construction
+  desc "withdraw UUID AMOUNT", "withdraw user tokens"
+  def withdraw(uuid,  amount)
+    user = BmxApiRuby::UsersApi.new(client)
+    output user.put_users_uuid_withdraw(amount, uuid)
   end
 end

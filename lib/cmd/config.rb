@@ -34,8 +34,8 @@ class Config < ThorBase
   EOF
   def set
     args = config
-    %i(scheme host usermail password debugging).each do |sym|
-      args[sym] = options[sym] if options[sym]
+    %w(scheme host usermail password debugging).each do |key|
+      args[key] = options[key] unless options[key].nil?
     end
     output args
     File.open(File.expand_path(CFG_FILE), 'w') {|f| f.puts args.to_yaml}
