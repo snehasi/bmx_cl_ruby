@@ -1,16 +1,15 @@
 class Event < ThorBase
   desc "list", "list all events"
+  option :after , desc: "Event ID", type: :numeric
   def list
-    under_construction
+    event = BmxApiRuby::EventsApi.new(client)
+    opts  = options[:after].nil? ? {} : {after: options[:after]}
+    output event.get_events(opts)
   end
 
-  desc "show EVENT_UUID", "show event details"
-  def show(_event_uuid)
-    under_construction
-  end
-
-  desc "update EVENT_UUID", "update event link"
-  def update(_event_uuid)
-    under_construction
+  desc "update EVENT_ID ETHERSCAN_URL", "update etherscan url"
+  def update(id, etherscan_url)
+    event = BmxApiRuby::EventsApi.new(client)
+    output event.put_events(id, etherscan_url)
   end
 end
