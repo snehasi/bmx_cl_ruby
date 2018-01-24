@@ -17,7 +17,7 @@ class Contract < ThorBase
   EOF
   def show(contract_uuid)
     contract = BmxApiRuby::ContractsApi.new(client)
-    output contract.get_contracts_uuid(contract_uuid).to_hash
+    output contract.get_contracts_uuid(contract_uuid)
   end
 
   desc "clone CONTRACT_UUID", "clone contract"

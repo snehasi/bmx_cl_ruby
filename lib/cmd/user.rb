@@ -5,7 +5,8 @@ class User < ThorBase
   option :password , desc: "PASSWORD" , required: true
   desc "create", "create a user"
   def create
-    under_construction
+    user = BmxApiRuby::UsersApi.new(client)
+    output user.post_users(options[:usermail], options[:password])
   end
 
   desc "show USERMAIL", "show user information"
