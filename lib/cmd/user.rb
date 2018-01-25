@@ -10,9 +10,14 @@ class User < ThorBase
   end
 
   desc "show USERMAIL", "show user information"
+  option :offers    , desc: "include offers"    , type: :boolean
+  option :positions , desc: "include positions" , type: :boolean
   def show(usermail)
+    opts = {}
+    opts[:'offers']    = options["offers"]    unless options["offers"].nil?
+    opts[:'positions'] = options["positions"] unless options["positions"].nil?
     user = BmxApiRuby::UsersApi.new(client)
-    output user.get_users_usermail(usermail).to_hash
+    output user.get_users_usermail(usermail, opts)
   end
 
   desc "deposit UUID AMOUNT", "deposit user tokens"
