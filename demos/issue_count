@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+json  = `bmx issue list`
+array = JSON.parse(json)
+
+puts "Number of open issues is #{array.length}"

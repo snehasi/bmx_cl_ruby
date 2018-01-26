@@ -13,6 +13,7 @@ require_relative "./cmd/contract"
 require_relative "./cmd/escrow"
 require_relative "./cmd/position"
 require_relative "./cmd/event"
+require_relative "./cmd/bmx_time"
 
 class BmxRuby < Thor
   desc "config SUBCOMMAND", "set BMX host and user credentials"
@@ -41,6 +42,9 @@ class BmxRuby < Thor
 
   desc "event SUBCOMMAND", "manage event"
   subcommand "event", Event
+
+  desc "time SUBCOMMAND", "manage time"
+  subcommand "time", BmxTime
 end
 
 

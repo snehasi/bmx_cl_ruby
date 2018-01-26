@@ -13,17 +13,19 @@
 - [x] publish bmx_ruby gem on github
 - [x] add install instructions
 
-## TBD
+## Jan 25
 
-- [ ] add `help_all` command
-- [ ] add custom help ordering [stackof][help1]
+- [x] add table display (HIRB?)
+- [x] add custom help ordering [stackof][help1]
+- [x] add `help_all` command
+
+- [ ] how to display a simple string?
+- [ ] how to display error messages
 
 - [ ] add version ID
 - [ ] add version command "-v, --version" [stackof][vers1]
 
 - [ ] add command-line completion [stackof][comp1] [github][comp2]
-
-- [ ] add table display (HIRB?)
 
 - [ ] push bmx_ruby to rubygems
 
