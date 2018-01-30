@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+echo "----- BUGMARK-CLI TOTAL REBUILD ---------------------"
+echo "START `date`"
+
+( echo Clear Old Data ; all_clear     ) && 
+( echo Load User Data ; user_load     ) &&
+( echo Load GH data   ; gh_load       ) &&
+( echo Load OfferBU   ; offer_bu_load ) &&
+( echo Load OfferBF   ; offer_bf_load ) &&
+( echo Load Contracts ; contract_load ) &&
+( echo Counts         ; all_count     ) 
+
+echo "DONE `date`"

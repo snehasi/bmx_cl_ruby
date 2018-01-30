@@ -19,8 +19,20 @@
 - [x] add custom help ordering [stackof][help1]
 - [x] add `help_all` command
 
-- [ ] how to display a simple string?
-- [ ] how to display error messages
+## Jan 26
+
+- [x] how to display a simple string?
+
+## Jan 27
+
+- [x] how to display error messages
+
+## TBD
+
+- [ ] reset the system
+- [ ] 
+
+
 
 - [ ] add version ID
 - [ ] add version command "-v, --version" [stackof][vers1]

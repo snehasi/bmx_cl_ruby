@@ -7,7 +7,7 @@ class Issue < ThorBase
 
   desc "show ISSUE_UUID", "show issue details"
   def show(issue_uuid)
-    issue = BmxApiRuby::IssuesApi.new(client)
-    output issue.get_issues_uuid(issue_uuid).to_hash
+    issue  = BmxApiRuby::IssuesApi.new(client)
+    output(remex { issue.get_issues_issue_uuid(issue_uuid) })
   end
 end

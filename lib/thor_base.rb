@@ -60,6 +60,22 @@ class Thor
       self.class.config(file)
     end
 
+    def error_msg(error)
+      {
+        status: "ERROR"  ,
+        code: error.code ,
+        message: JSON.parse(error.response_body)["error"]
+      }
+    end
+
+    def remex(&block)
+      begin
+        block.call
+      rescue BmxApiRuby::ApiError => e
+        error_msg(e)
+      end
+    end
+
     def output(data)
       if options[:color]
         ap data

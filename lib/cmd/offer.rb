@@ -8,7 +8,7 @@ class Offer < ThorBase
   desc "show OFFER_UUID", "show an offer"
   def show(offer_uuid)
     offer = BmxApiRuby::OffersApi.new(client)
-    output offer.get_offers_uuid(offer_uuid).to_hash
+    output(remex { offer.get_offers_uuid(offer_uuid) })
   end
 
   desc "create_buy", "create a buy offer"
@@ -19,14 +19,18 @@ class Offer < ThorBase
   option :maturation , desc: "maturation date (YYMMDD_HHMM)" , type: :string
   option :expiration , desc: "expiration date (YYMMDD_HHMM)" , type: :string
   option :aon        , desc: "all-or-nothing (true | false)" , type: :boolean
+  option :poolable   , desc: "poolable (true | false)"       , type: :boolean
   def create_buy
     offer = BmxApiRuby::OffersApi.new(client)
-    side   = "fixed"
-    volume = 10
-    price  = 0.6
-    issue  = "asdf-qwer"
+    side   = options[:side]
+    volume = options[:volume]
+    price  = options[:price]
+    issue  = options[:issue_uuid]
     opts   = {}
-    output offer.post_offers_buy(side, volume, price, issue, opts)
+    %i(maturation expiration aon poolable).each do |el|
+      opts[el] = options[el] unless options[el].nil?
+    end
+    output(remex {offer.post_offers_buy(side, volume, price, issue, opts)})
   end
 
   desc "create_sell", "create a sell offer"
