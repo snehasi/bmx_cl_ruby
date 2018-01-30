@@ -1,12 +1,11 @@
 require 'pry'
 
 class User < ThorBase
-  option :usermail , desc: "USERMAIL" , required: true
-  option :password , desc: "PASSWORD" , required: true
-  desc "create", "create a user"
-  def create
+  desc "list", "list users"
+  option :offers    , desc: "include offers"    , type: :boolean
+  def list
     user = BmxApiRuby::UsersApi.new(client)
-    output user.post_users(options[:usermail], options[:password])
+    output(remex {user.get_users.map {|x| x.to_hash}})
   end
 
   desc "show USERMAIL", "show user information"
@@ -17,7 +16,23 @@ class User < ThorBase
     opts[:'offers']    = options["offers"]    unless options["offers"].nil?
     opts[:'positions'] = options["positions"] unless options["positions"].nil?
     user = BmxApiRuby::UsersApi.new(client)
-    output user.get_users_usermail(usermail, opts)
+    output(remex {user.get_users_email(usermail, opts)}.to_hash)
+  end
+
+  option :usermail , desc: "USERMAIL" , type: :string, required: true
+  option :password , desc: "PASSWORD" , type: :string, required: true
+  option :balance  , desc: "BALANCE"  , type: :numeric
+  desc "create", "create a user"
+  long_desc <<~EOF
+    Create a user with an optional opening balance.
+
+    Default balance is zero.
+  EOF
+  def create
+    user = BmxApiRuby::UsersApi.new(client)
+    opts = {}
+    opts[:balance] = options[:balance] unless options[:balance].nil?
+    output( remex {user.post_users(options[:usermail], options[:password], opts)}.to_hash )
   end
 
   desc "deposit UUID AMOUNT", "deposit user tokens"

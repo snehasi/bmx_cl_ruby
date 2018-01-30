@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-bmx host rebuild --affirm=destroy_all_data
