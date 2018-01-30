@@ -61,17 +61,19 @@ class Thor
     end
 
     def error_msg(error)
-      {
-        status: "ERROR"  ,
-        code: error.code ,
-        message: JSON.parse(error.response_body)["error"]
-      }
+      err = { status: "ERROR" }
+      err[:code] = error.code if error.respond_to?(:code)
+      err[:resp] = JSON.parse(error.response_body)["error"] if error.respond_to?(:response_body)
+      err[:mesg] = error.message if error.respond_to?(:message)
+      err
     end
 
     def remex(&block)
       begin
         block.call
       rescue BmxApiRuby::ApiError => e
+        error_msg(e)
+      rescue Exception => e
         error_msg(e)
       end
     end

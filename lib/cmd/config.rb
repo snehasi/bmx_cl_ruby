@@ -25,7 +25,7 @@ class Config < ThorBase
       - usermail
       - password
 
-    You can set a default username/password in the configation, 
+    You can set a default username/password in the configation,
     and override these values with the --userspec option.
 
     Configuration settings are stored in #{CFG_FILE}.
@@ -39,16 +39,5 @@ class Config < ThorBase
     end
     output args
     File.open(File.expand_path(CFG_FILE), 'w') {|f| f.puts args.to_yaml}
-  end
-
-  desc "test", "validate configuration options"
-  long_desc <<~EOF
-    Test configuration options.
-
-    Returns either "OK" or "Error (reason)"
-  EOF
-  def test
-    ping = BmxApiRuby::PingApi.new(client)
-    puts ping.get_ping.status
   end
 end
