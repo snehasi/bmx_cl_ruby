@@ -19,15 +19,15 @@ class User < ThorBase
     output(remex {user.get_users_email(usermail, opts)}.to_hash)
   end
 
-  option :usermail , desc: "USERMAIL" , type: :string, required: true
-  option :password , desc: "PASSWORD" , type: :string, required: true
-  option :balance  , desc: "BALANCE"  , type: :numeric
   desc "create", "create a user"
   long_desc <<~EOF
     Create a user with an optional opening balance.
 
     Default balance is zero.
   EOF
+  option :usermail , desc: "USERMAIL" , type: :string, required: true
+  option :password , desc: "PASSWORD" , type: :string, required: true
+  option :balance  , desc: "BALANCE"  , type: :numeric
   def create
     user = BmxApiRuby::UsersApi.new(client)
     opts = {}

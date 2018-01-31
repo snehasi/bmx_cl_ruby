@@ -22,7 +22,8 @@ class Host < ThorBase
   def next_week_ends
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}
-    output date.get_host_next_week_ends(opts).map {|el| el.to_hash}
+    result = date.get_host_next_week_ends(opts).to_hash[:next_week_ends]
+    output(result.map {|dt| dt.to_s})
   end
 
   desc "increment_day_offset", "increment current day offset"
