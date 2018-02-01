@@ -11,6 +11,14 @@ class Contract < ThorBase
     output data
   end
 
+  desc "cross OFFER_UUID", "cross an offer"
+  option :commit_type, desc: "cross type (expand, contract, transfer)", type: :string, required: true
+  def cross(offer_uuid)
+    contract = BmxApiRuby::ContractApi.new(client)
+    opts = [options[:commit_type], offer_uuid]
+    output(remex {contract.post_contract_offer_uuid(*opts)}.to_hash)
+  end
+
   desc "show CONTRACT_UUID", "show contract details"
   long_desc <<~EOF
     Show all information for a single contract.

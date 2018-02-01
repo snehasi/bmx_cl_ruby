@@ -22,8 +22,8 @@ class Host < ThorBase
   def next_week_ends
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}
-    result = date.get_host_next_week_ends(opts).to_hash[:next_week_ends]
-    output(result.map {|dt| dt.to_s})
+    result = remex {date.get_host_next_week_ends(opts)}
+    output(result.to_hash[:next_week_ends].map {|dt| dt.to_s})
   end
 
   desc "increment_day_offset", "increment current day offset"
@@ -53,6 +53,6 @@ class Host < ThorBase
   def rebuild
     date = BmxApiRuby::HostApi.new(client)
     abort "ERROR: must use '--affirm=destroy_all_data'" unless options[:affirm] == "destroy_all_data"
-    output(remex { date.post_host_rebuild(options[:affirm]) }.to_hash )
+    output(remex { date.post_host_rebuild('destroy_all_data') }.to_hash )
   end
 end
