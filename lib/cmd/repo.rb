@@ -17,7 +17,7 @@ class Repo < ThorBase
     repo = BmxApiRuby::ReposApi.new(client)
     opts = {}
     opts[:sync] = "true" if options[:sync] == true
-    output(remex {repo.post_repos(repo_name, opts)}.to_hash)
+    output(run {repo.post_repos(repo_name, opts)}.to_hash)
   end
 
   desc "sync REPO_UUID", "sync repo"

@@ -8,7 +8,6 @@ class Config < ThorBase
     Show the current configuration.  Config file location is `#{CFG_FILE}`.
   EOF
   def show
-    puts "Config File: #{CFG_FILE}"
     output config
   end
 

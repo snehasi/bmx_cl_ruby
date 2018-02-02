@@ -5,7 +5,7 @@ class User < ThorBase
   option :offers    , desc: "include offers"    , type: :boolean
   def list
     user = BmxApiRuby::UsersApi.new(client)
-    output(remex {user.get_users.map {|x| x.to_hash}})
+    output(run {user.get_users.map {|x| x.to_hash}})
   end
 
   desc "show USERMAIL", "show user information"
@@ -16,7 +16,7 @@ class User < ThorBase
     opts[:'offers']    = options["offers"]    unless options["offers"].nil?
     opts[:'positions'] = options["positions"] unless options["positions"].nil?
     user = BmxApiRuby::UsersApi.new(client)
-    output(remex {user.get_users_email(usermail, opts)}.to_hash)
+    output(run {user.get_users_email(usermail, opts)}.to_hash)
   end
 
   desc "create", "create a user"
@@ -32,7 +32,7 @@ class User < ThorBase
     user = BmxApiRuby::UsersApi.new(client)
     opts = {}
     opts[:balance] = options[:balance] unless options[:balance].nil?
-    output( remex {user.post_users(options[:usermail], options[:password], opts)}.to_hash )
+    output( run {user.post_users(options[:usermail], options[:password], opts)}.to_hash )
   end
 
   desc "deposit UUID AMOUNT", "deposit user tokens"

@@ -16,7 +16,7 @@ class Contract < ThorBase
   def cross(offer_uuid)
     contract = BmxApiRuby::ContractApi.new(client)
     opts = [options[:commit_type], offer_uuid]
-    output(remex {contract.post_contract_offer_uuid(*opts)}.to_hash)
+    runput {contract.post_contract_offer_uuid(*opts)}
   end
 
   desc "show CONTRACT_UUID", "show contract details"

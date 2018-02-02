@@ -2,19 +2,19 @@ class Host < ThorBase
   desc "info", "show current host info"
   def info
     host = BmxApiRuby::HostApi.new(client)
-    output host.get_host_info.to_hash
+    runput { host.get_host_info }
   end
 
   desc "ping", "ping the host"
   def ping
     host = BmxApiRuby::HostApi.new(client)
-    output host.get_host_ping.to_hash
+    runput { host.get_host_ping }
   end
 
   desc "counts", "show host object count"
   def counts
     host = BmxApiRuby::HostApi.new(client)
-    output host.get_host_counts.to_hash
+    runput {host.get_host_counts}
   end
 
   desc "next_week_ends", "show future week-ending dates"
@@ -22,8 +22,8 @@ class Host < ThorBase
   def next_week_ends
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}
-    result = remex {date.get_host_next_week_ends(opts)}
-    output(result.to_hash[:next_week_ends].map {|dt| dt.to_s})
+    result = run {date.get_host_next_week_ends(opts)}.to_hash
+    output(result[:next_week_ends]&.map {|dt| dt.to_s} || result)
   end
 
   desc "increment_day_offset", "increment current day offset"
@@ -31,7 +31,7 @@ class Host < ThorBase
   def increment_day_offset
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}
-    output date.put_host_increment_day_offset(opts).to_hash
+    runput { date.put_host_increment_day_offset(opts) }
   end
 
   desc "rebuild", "destroy all data and rebuild from scratch"
@@ -53,6 +53,6 @@ class Host < ThorBase
   def rebuild
     date = BmxApiRuby::HostApi.new(client)
     abort "ERROR: must use '--affirm=destroy_all_data'" unless options[:affirm] == "destroy_all_data"
-    output(remex { date.post_host_rebuild('destroy_all_data') }.to_hash )
+    runput { date.post_host_rebuild('destroy_all_data') }
   end
 end

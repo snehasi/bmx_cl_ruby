@@ -4,12 +4,12 @@ class Issue < ThorBase
   def list
     opts = options[:limit] ? {limit: options[:limit]} : {}
     list = BmxApiRuby::IssuesApi.new(client)
-    output(remex {list.get_issues(opts).map {|issue| issue.to_hash}})
+    output(run {list.get_issues(opts).map {|issue| issue.to_hash}})
   end
 
   desc "show ISSUE_UUID", "show issue details"
   def show(issue_uuid)
     issue  = BmxApiRuby::IssuesApi.new(client)
-    output(remex { issue.get_issues_issue_uuid(issue_uuid) })
+    output(run { issue.get_issues_issue_uuid(issue_uuid) })
   end
 end

@@ -15,7 +15,7 @@ class Offer < ThorBase
   desc "show OFFER_UUID", "show an offer"
   def show(offer_uuid)
     offer = BmxApiRuby::OffersApi.new(client)
-    output(remex { offer.get_offers_uuid(offer_uuid) })
+    output(run { offer.get_offers_uuid(offer_uuid) })
   end
 
   desc "create_buy", "create a buy offer"
@@ -37,7 +37,7 @@ class Offer < ThorBase
     %i(maturation expiration aon poolable).each do |el|
       opts[el] = options[el] unless options[el].nil?
     end
-    output(remex {offer.post_offers_buy(side, volume, price, issue, opts)}.to_hash)
+    output(run {offer.post_offers_buy(side, volume, price, issue, opts)}.to_hash)
   end
 
   desc "create_sell", "create a sell offer"

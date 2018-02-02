@@ -7,10 +7,10 @@ require 'json'
 CFG_FILE = "~/.bmx_ruby_cfg.yaml"
 
 DEFAULTS = {
-  "scheme"    => "https"       ,
-  "host"      => "bugmark.net" ,
-  "usermail"  => ""            ,
-  "password"  => ""            ,
+  "scheme"    => "https"             ,
+  "host"      => "bugmark.net"       ,
+  "usermail"  => "admin@bugmark.net" ,
+  "password"  => "bugmark"           ,
   "debugging" => false
 }
 
@@ -20,7 +20,8 @@ class Thor
     def config(file = CFG_FILE)
       xaf = File.expand_path(file)
       val = File.exist?(xaf) ? YAML.load_file(xaf) : {}
-      DEFAULTS.merge(Hash[val.map {|k,v| [k.to_s, v]}])
+      out = DEFAULTS.merge(Hash[val.map {|k,v| [k.to_s, v]}])
+      {cfg_file: file}.merge(out)
     end
 
     def help(shell, subcommand = false)
@@ -62,13 +63,18 @@ class Thor
 
     def error_msg(error)
       err = { status: "ERROR" }
+      body = begin
+        JSON.parse error.response_body
+      rescue
+        error.response_body
+      end
+      err[:body] = body if error.response_body.length > 0
       err[:code] = error.code if error.respond_to?(:code)
-      err[:resp] = JSON.parse(error.response_body)["error"] if error.respond_to?(:response_body)
       err[:mesg] = error.message if error.respond_to?(:message)
       err
     end
 
-    def remex(&block)
+    def run(&block)
       begin
         block.call
       rescue BmxApiRuby::ApiError => e
@@ -76,6 +82,12 @@ class Thor
       rescue Exception => e
         error_msg(e)
       end
+    end
+
+    def runput(&block)
+      result = run(&block).to_hash
+      output result
+      exit(1) if result[:status] == "ERROR"
     end
 
     def output(data)
