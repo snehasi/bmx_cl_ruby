@@ -18,12 +18,14 @@ class Host < ThorBase
   end
 
   desc "next_week_ends", "show future week-ending dates"
-  option :count , desc: "week count", type: :numeric
+  option :count    , desc: "week count" , type: :numeric
+  option :strftime , desc: "date format", type: :string
   def next_week_ends
+    strftime = options[:strftime] || "%Y-%m-%d %H:%M:%S %z"
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}
     result = run {date.get_host_next_week_ends(opts)}.to_hash
-    output(result[:next_week_ends]&.map {|dt| dt.to_s} || result)
+    output(result[:next_week_ends]&.map {|dt| dt.strftime(strftime)} || result)
   end
 
   desc "increment_day_offset", "increment current day offset"

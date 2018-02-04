@@ -20,8 +20,7 @@ class Thor
     def config(file = CFG_FILE)
       xaf = File.expand_path(file)
       val = File.exist?(xaf) ? YAML.load_file(xaf) : {}
-      out = DEFAULTS.merge(Hash[val.map {|k,v| [k.to_s, v]}])
-      {cfg_file: file}.merge(out)
+      {"cfg_file" => CFG_FILE}.merge(DEFAULTS.merge(Hash[val.map {|k,v| [k.to_s, v]}]))
     end
 
     def help(shell, subcommand = false)
