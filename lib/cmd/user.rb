@@ -2,10 +2,12 @@ require 'pry'
 
 class User < ThorBase
   desc "list", "list users"
-  option :offers    , desc: "include offers"    , type: :boolean
+  option :with_email  , desc: "filter by email"   , type: :string
   def list
     user = BmxApiRuby::UsersApi.new(client)
-    output(run {user.get_users.map {|x| x.to_hash}})
+    opts = {}
+    opts[:with_email] = options["with_email"] if options["with_email"]
+    output(run {user.get_users(opts).map {|x| x.to_hash}})
   end
 
   desc "show USERMAIL", "show user information"
@@ -13,10 +15,10 @@ class User < ThorBase
   option :positions , desc: "include positions" , type: :boolean
   def show(usermail)
     opts = {}
-    opts[:'offers']    = options["offers"]    unless options["offers"].nil?
-    opts[:'positions'] = options["positions"] unless options["positions"].nil?
+    opts[:offers]    = options["offers"]    unless options["offers"].nil?
+    opts[:positions] = options["positions"] unless options["positions"].nil?
     user = BmxApiRuby::UsersApi.new(client)
-    output(run {user.get_users_email(usermail, opts)}.to_hash)
+    runput {user.get_users_email(usermail, opts)}
   end
 
   desc "create", "create a user"
@@ -32,7 +34,7 @@ class User < ThorBase
     user = BmxApiRuby::UsersApi.new(client)
     opts = {}
     opts[:balance] = options[:balance] unless options[:balance].nil?
-    output( run {user.post_users(options[:usermail], options[:password], opts)}.to_hash )
+    runput {user.post_users(options[:usermail], options[:password], opts)}
   end
 
   desc "deposit UUID AMOUNT", "deposit user tokens"

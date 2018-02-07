@@ -62,13 +62,15 @@ class Thor
 
     def error_msg(error)
       err = { status: "ERROR" }
-      body = begin
-        JSON.parse error.response_body
-      rescue
-        error.response_body
-      end
-      err[:body] = body if error.response_body.length > 0
-      err[:code] = error.code if error.respond_to?(:code)
+      body = -> {
+        begin
+          JSON.parse(error.response_body)
+        rescue
+          error.response_body
+        end
+      }
+      err[:body] = body.call     if error.respond_to?(:response_body)
+      err[:code] = error.code    if error.respond_to?(:code)
       err[:mesg] = error.message if error.respond_to?(:message)
       err
     end

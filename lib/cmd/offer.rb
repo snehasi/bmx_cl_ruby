@@ -1,14 +1,14 @@
 class Offer < ThorBase
   desc "list", "list offers"
-  option :type   , desc: "type"    , type: :string
-  option :status , desc: "status"  , type: :string
-  option :limit  , desc: "limit"   , type: :numeric
+  option :with_type   , desc: "type query"    , type: :string
+  option :with_status , desc: "status query"  , type: :string
+  option :limit       , desc: "limit"         , type: :numeric
   def list
     list = BmxApiRuby::OffersApi.new(client)
     opts = {}
-    opts[:type]   = options[:type]   if options[:type]
-    opts[:status] = options[:status] if options[:status]
-    opts[:limit]  = options[:limit]  if options[:limit]
+    opts[:with_type] = options[:with_type]   if options[:with_type]
+    opts[:status]    = options[:status] if options[:status]
+    opts[:limit]     = options[:limit]  if options[:limit]
     output list.get_offers(opts).map {|offer| offer.to_hash}
   end
 
