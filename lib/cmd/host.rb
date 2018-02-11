@@ -36,6 +36,24 @@ class Host < ThorBase
     runput { date.put_host_increment_day_offset(opts) }
   end
 
+  desc "increment_hour_offset", "increment current hour offset"
+  option :count , desc: "count increment", type: :numeric
+  def increment_hour_offset
+    date = BmxApiRuby::HostApi.new(client)
+    opts = options[:count] ? {count: options[:count]} : {}
+    runput { date.put_host_increment_hour_offset(opts) }
+  end
+
+  desc "set_current_time", "set current clock time"
+  long_desc <<~EOF
+    Reset the time offsets to zero.  This only works if the current time
+    is in the past.
+  EOF
+  def set_current_time
+    date = BmxApiRuby::HostApi.new(client)
+    runput { date.put_host_set_current_time }
+  end
+
   desc "rebuild", "destroy all data and rebuild from scratch"
   long_desc <<~EOF
     Destroy all data and rebuild the system.  The rebuilt system will
@@ -49,12 +67,20 @@ class Host < ThorBase
     with `mutable` datastores, and will fail for hosts with `permanent`
     datastores.
 
+    You can use the option `use_day_offset` to set the clock of the rebuilt 
+    system to a day in the future or in the past.  Use this when you want to
+    run a simulation with historical data.
+
     Use the `host info` command to view the datastore type.
   EOF
-  option :affirm , desc: "destroy_all_data (required!)", type: :string
+  option :affirm          , desc: "destroy_all_data (required!)", type: :string
+  option :with_day_offset , desc: "set offset of starting day"  , type: :numeric
   def rebuild
     date = BmxApiRuby::HostApi.new(client)
     abort "ERROR: must use '--affirm=destroy_all_data'" unless options[:affirm] == "destroy_all_data"
-    runput { date.post_host_rebuild('destroy_all_data') }
+    opts = {}
+    offset = options[:with_day_offset]
+    opts[:with_day_offset] = offset if offset
+    runput { date.post_host_rebuild('destroy_all_data', opts) }
   end
 end

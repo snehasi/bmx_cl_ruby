@@ -28,6 +28,22 @@ class Contract < ThorBase
     output contract.get_contracts_uuid(contract_uuid)
   end
 
+  desc "history CONTRACT_UUID", "show price and volume history"
+  option :series , desc: "include all series", type: :boolean
+  def history(_contract_uuid)
+    under_construction
+  end
+
+  desc "open_offers CONTRACT_UUID", "show current open offers"
+  def open_offers(_contract_uuid)
+    under_construction
+  end
+
+  desc "series CONTRACT_UUID", "show contract series"
+  def series(_contract_uuid)
+    under_construction
+  end
+
   desc "clone CONTRACT_UUID", "clone contract"
   long_desc <<~EOF
     Clone a contract.
