@@ -14,20 +14,21 @@ class Issue < ThorBase
   end
 
   desc "sync ISSUE_EXID", "create or update an issue"
-  option :type       , desc: "TBD"    , type: :string
-  option :uuid       , desc: "TBD"    , type: :string
-  option :repo_uuid  , desc: "TBD"    , type: :string
-  option :issue_uuid , desc: "TBD"    , type: :string
-  option :title      , desc: "TBD"    , type: :string
-  option :status     , desc: "TBD"    , type: :string
-  option :labels     , desc: "TBD"    , type: :string
+  option :uuid       , desc: "TBD" , type: :string
+  option :type       , desc: "TBD" , type: :string , required: true, values: %w(GitHub Test)
+  option :repo_uuid  , desc: "TBD" , type: :string , required: true
+  option :title      , desc: "TBD" , type: :string
+  option :status     , desc: "TBD" , type: :string
+  option :labels     , desc: "TBD" , type: :string
   def sync(exid)
+    type      = options["type"]
+    repo_uuid = options["repo_uuid"]
     opts = {}
-    %i(type uuid repo_uuid issue_uuid title status labels).each do |lbl|
+    %i(uuid title status labels).each do |lbl|
       opts[lbl] = options[lbl] if options[lbl]
     end
     issue  = BmxApiRuby::IssuesApi.new(client)
-    runput { issue.post_issues_exid(exid, opts) }
+    runput { issue.post_issues_exid(exid, type, repo_uuid, opts) }
   end
 end
 
