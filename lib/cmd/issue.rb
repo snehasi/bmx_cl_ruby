@@ -10,7 +10,7 @@ class Issue < ThorBase
   desc "show ISSUE_UUID", "show issue details"
   def show(issue_uuid)
     issue  = BmxApiRuby::IssuesApi.new(client)
-    runput { issue.get_issues_issue_uuid(issue_uuid, opts) }
+    runput { issue.get_issues_issue_uuid(issue_uuid, {}) }
   end
 
   desc "sync ISSUE_EXID", "create or update an issue"
