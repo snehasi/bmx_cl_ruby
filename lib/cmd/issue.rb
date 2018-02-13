@@ -15,8 +15,8 @@ class Issue < ThorBase
 
   desc "sync ISSUE_EXID", "create or update an issue"
   option :uuid       , desc: "TBD" , type: :string
-  option :type       , desc: "TBD" , type: :string , required: true, values: %w(GitHub Test)
-  option :repo_uuid  , desc: "TBD" , type: :string , required: true
+  option :type       , desc: "For now either 'Test' or 'GitHub'" , type: :string , required: true, values: %w(GitHub Test)
+  option :repo_uuid  , desc: "UUID of repository this issue belongs to" , type: :string , required: true
   option :title      , desc: "TBD" , type: :string
   option :status     , desc: "TBD" , type: :string
   option :labels     , desc: "TBD" , type: :string
