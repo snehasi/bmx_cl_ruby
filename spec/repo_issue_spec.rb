@@ -41,5 +41,17 @@ describe "repo/issues" do
       result = JSON.parse(`bmx host counts`)
       expect(result["num_issues"]).to eq(1)
     end
+
+    it "lists issues" do
+      result = JSON.parse(`bmx issue list`)
+      expect(result.length).to eq(1)
+    end
+
+    it "shows an issue" do
+      result = JSON.parse(`bmx issue list`)
+      uuid   = result.first["uuid"]
+      result = JSON.parse(`bmx issue show #{uuid}`)
+      expect(result).to_not be_nil
+    end
   end
 end
