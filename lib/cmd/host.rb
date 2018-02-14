@@ -29,7 +29,7 @@ class Host < ThorBase
   end
 
   desc "increment_day_offset", "increment current day offset"
-  option :count , desc: "count increment", type: :numeric
+  option :count , desc: "count increment (default: 1)", type: :numeric
   def increment_day_offset
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}

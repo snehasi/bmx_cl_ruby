@@ -15,7 +15,7 @@ class Issue < ThorBase
 
   desc "sync ISSUE_EXID", "create or update an issue"
   option :uuid       , desc: "TBD" , type: :string
-  option :repo_uuid  , desc: "TBD" , type: :string , required: true
+  option :repo_uuid  , desc: "UUID of issue repository" , type: :string , required: true
   option :title      , desc: "TBD" , type: :string
   option :status     , desc: "TBD" , type: :string
   option :labels     , desc: "TBD" , type: :string
