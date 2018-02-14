@@ -67,9 +67,13 @@ class Host < ThorBase
     with `mutable` datastores, and will fail for hosts with `permanent`
     datastores.
 
-    You can use the option `use_day_offset` to set the clock of the rebuilt 
+    You can use the option `with_day_offset` to set the clock of the rebuilt 
     system to a day in the future or in the past.  Use this when you want to
     run a simulation with historical data.
+
+    `--with_day_offset=7`   # start clock 7 days in the future
+
+    `--with_day_offset=-90` # start clock 90 days in the past
 
     Use the `host info` command to view the datastore type.
   EOF

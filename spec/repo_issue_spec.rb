@@ -32,7 +32,7 @@ describe "repo/issues" do
 
     it "generates a test issue" do
       repo_uuid = JSON.parse(`bmx repo list`).first["uuid"]
-      result = `bmx issue sync EXID1 --repo-uuid=#{repo_uuid} --type=Test`
+      result = `bmx issue sync EXID1 --repo-uuid=#{repo_uuid}`
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
