@@ -7,26 +7,25 @@ class Issue < ThorBase
     output(run {list.get_issues(opts).map {|issue| issue.to_hash}})
   end
 
-  desc "show ISSUE_UUID", "show issue details"
-  def show(issue_uuid)
+  desc "show ISSUE_EXID", "show issue details"
+  def show(issue_exid)
     issue  = BmxApiRuby::IssuesApi.new(client)
-    runput { issue.get_issues_issue_uuid(issue_uuid, {}) }
+    runput { issue.get_issues_issue_exid(issue_exid, {}) }
   end
 
   desc "sync ISSUE_EXID", "create or update an issue"
-  option :uuid       , desc: "TBD" , type: :string
-  option :repo_uuid  , desc: "UUID of issue repository" , type: :string , required: true
+  option :exid       , desc: "TBD" , type: :string
+  option :repo_uuid  , desc: "UUID of issue repository" , type: :string
   option :title      , desc: "TBD" , type: :string
   option :status     , desc: "TBD" , type: :string
   option :labels     , desc: "TBD" , type: :string
   def sync(exid)
-    repo_uuid = options["repo_uuid"]
     opts = {}
-    %i(uuid title status labels).each do |lbl|
+    %i(uuid repo_uuid title status labels).each do |lbl|
       opts[lbl] = options[lbl] if options[lbl]
     end
     issue  = BmxApiRuby::IssuesApi.new(client)
-    runput { issue.post_issues_exid(exid, repo_uuid, opts) }
+    runput { issue.post_issues_exid(exid, opts) }
   end
 end
 
