@@ -60,7 +60,6 @@ describe "setup" do
     expect(counts["bf_offers"]).to eq(0)
     expect(counts["contracts"]).to eq(1)
     expect(counts["positions"]).to eq(2)
-    puts users
     expect(counts["events"]).to eq(19)
   end
 end

@@ -104,7 +104,7 @@ describe "contract" do
 
   describe "cross" do
     it "makes a cross" do
-      offer_uuid = JSON.parse(`bmx offer list --with_type=Buy --with_status=open`).first["uuid"]
+      offer_uuid = JSON.parse(`bmx offer list`).first["uuid"]
       result     = `bmx contract cross #{offer_uuid} --commit-type=expand`
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
