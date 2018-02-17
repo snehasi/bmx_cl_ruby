@@ -22,7 +22,11 @@ class Offer < ThorBase
   option :side       , desc: "fixed or unfixed"              , type: :string  , required: true
   option :volume     , desc: "number of positions"           , type: :numeric , required: true
   option :price      , desc: "price (between 0.0 and 1.00)"  , type: :numeric , required: true
-  option :issue      , desc: "issue UUID"                    , type: :string  , required: true
+  option :repo       , desc: "repo UUID"                     , type: :string
+  option :issue      , desc: "issue UUID"                    , type: :string
+  option :title      , desc: "issue title"                   , type: :string
+  option :labels     , desc: "issue labels"                  , type: :string
+  option :status     , desc: "issue status"                  , type: :string
   option :maturation , desc: "maturation date (YYMMDD_HHMM)" , type: :string
   option :expiration , desc: "expiration date (YYMMDD_HHMM)" , type: :string
   option :aon        , desc: "all-or-nothing (true | false)" , type: :boolean
@@ -32,12 +36,11 @@ class Offer < ThorBase
     side   = options[:side]
     volume = options[:volume]
     price  = options[:price]
-    issue  = options[:issue]
     opts   = {}
-    %i(maturation expiration aon poolable).each do |el|
+    %i(repo issue title labels status maturation expiration aon poolable).each do |el|
       opts[el] = options[el] unless options[el].nil?
     end
-    runput {offer.post_offers_buy(side, volume, price, issue, opts)}
+    runput {offer.post_offers_buy(side, volume, price, opts)}
   end
 
   desc "create_sell", "create a sell offer"
