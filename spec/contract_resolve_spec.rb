@@ -60,7 +60,7 @@ describe "setup" do
     expect(counts["bf_offers"]).to eq(0)
     expect(counts["contracts"]).to eq(1)
     expect(counts["positions"]).to eq(2)
-    expect(counts["events"]).to eq(19)
+    expect(counts["events"]).to eq(20)
   end
 end
 
@@ -89,7 +89,7 @@ describe "contract resolve" do
     expect(counts["bf_offers"]).to eq(0)
     expect(counts["contracts"]).to eq(1)
     expect(counts["positions"]).to eq(2)
-    expect(counts["events"]).to eq(19)
+    expect(counts["events"]).to eq(21)
   end
 
   it "ends with the right user balances" do
