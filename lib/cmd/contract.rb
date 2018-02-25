@@ -64,7 +64,7 @@ class Contract < ThorBase
   end
 
   desc "cross OFFER_UUID", "cross an offer"
-  option :commit_type, desc: "cross type (expand, contract, transfer)", type: :string, required: true
+  option :commit_type, desc: "cross type (expand, contract, transfer)", type: :string, default: 'expand'
   def cross(offer_uuid)
     contract = BmxApiRuby::ContractApi.new(client)
     opts = [options[:commit_type], offer_uuid]

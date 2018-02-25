@@ -19,18 +19,43 @@ class Offer < ThorBase
   end
 
   desc "create_buy", "create a buy offer"
-  option :side       , desc: "fixed or unfixed"              , type: :string  , required: true
-  option :volume     , desc: "number of positions"           , type: :numeric , required: true
-  option :price      , desc: "price (between 0.0 and 1.00)"  , type: :numeric , required: true
-  option :repo       , desc: "repo UUID"                     , type: :string
-  option :issue      , desc: "issue UUID"                    , type: :string
-  option :title      , desc: "issue title"                   , type: :string
-  option :labels     , desc: "issue labels"                  , type: :string
-  option :status     , desc: "issue status"                  , type: :string
-  option :maturation , desc: "maturation date (YYMMDD_HHMM)" , type: :string
-  option :expiration , desc: "expiration date (YYMMDD_HHMM)" , type: :string
-  option :aon        , desc: "all-or-nothing (true | false)" , type: :boolean
-  option :poolable   , desc: "poolable (true | false)"       , type: :boolean
+  long_desc <<-EOF
+    This command creates a buy offer.
+
+    Note that you can specify a specific maturation/expiration date, or an 
+    offset.  Offsets are time projected forward from the current system time.
+    valid offset strings include:
+
+      - minutes(count)
+      - hours(count)
+      - days(count)
+      - weeks(count)
+      - months(count)
+      - end_of_today
+      - end_of_tomorrow
+      - end_of_hour(count)
+      - end_of_day(count)
+      - end_of_week(count)
+      - end_of_month(count)
+
+     Use a positive integer for options that take a count.
+
+     Note that expiration date will be auto-adjusted to be <= maturation date.
+  EOF
+  option :side              , desc: "fixed or unfixed"              , type: :string  , required: true
+  option :volume            , desc: "number of positions"           , type: :numeric , required: true
+  option :price             , desc: "price (between 0.0 and 1.00)"  , type: :numeric , required: true
+  option :repo              , desc: "repo UUID"                     , type: :string
+  option :issue             , desc: "issue UUID"                    , type: :string
+  option :title             , desc: "issue title"                   , type: :string
+  option :labels            , desc: "issue labels"                  , type: :string
+  option :status            , desc: "issue status"                  , type: :string
+  option :maturation        , desc: "maturation date (YYMMDD_HHMM)" , type: :string
+  option :maturation_offset , desc: "see long description"          , type: :string
+  option :expiration        , desc: "expiration date (YYMMDD_HHMM)" , type: :string
+  option :expiration_offset , desc: "see long description"          , type: :string
+  option :aon               , desc: "all-or-nothing (true | false)" , type: :boolean
+  option :poolable          , desc: "poolable (true | false)"       , type: :boolean
   def create_buy
     offer = BmxApiRuby::OffersApi.new(client)
     side   = options[:side]

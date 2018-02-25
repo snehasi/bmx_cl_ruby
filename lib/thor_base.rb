@@ -88,7 +88,7 @@ class Thor
     def runput(&block)
       result = run(&block).to_hash
       output result
-      exit(1) if result[:status] == "ERROR"
+      # exit(1) if result[:status] == "ERROR"
     end
 
     def output(data)

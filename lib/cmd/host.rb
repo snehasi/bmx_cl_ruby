@@ -1,8 +1,12 @@
 class Host < ThorBase
+  DEFAULT_STRFTIME = "%Y-%m-%d_%H:%M"
+
   desc "info", "show current host info"
+  option :strftime , desc: "date format", type: :string
   def info
     host = BmxApiRuby::HostApi.new(client)
-    runput { host.get_host_info }
+    strf = options[:strftime] || DEFAULT_STRFTIME
+    runput { host.get_host_info({strftime: strf}) }
   end
 
   desc "ping", "ping the host"
@@ -21,7 +25,7 @@ class Host < ThorBase
   option :count    , desc: "week count" , type: :numeric
   option :strftime , desc: "date format", type: :string
   def next_week_ends
-    strftime = options[:strftime] || "%Y-%m-%d %H:%M:%S %z"
+    strftime = options[:strftime] || DEFAULT_STRFTIME
     date = BmxApiRuby::HostApi.new(client)
     opts = options[:count] ? {count: options[:count]} : {}
     result = run {date.get_host_next_week_ends(opts)}.to_hash
