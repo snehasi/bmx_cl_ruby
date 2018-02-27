@@ -16,6 +16,7 @@ class Config < ThorBase
   option :host      , desc: "Host"
   option :usermail  , desc: "Default User Email"
   option :password  , desc: "Default User Password"
+  option :cache_dir , desc: "Cache directory"
   option :debugging , desc: "Enable Debugging" , type: :boolean
   long_desc <<~EOF
     Set configuration values.
@@ -33,7 +34,8 @@ class Config < ThorBase
   EOF
   def set
     args = config
-    %w(scheme host usermail password debugging).each do |key|
+    require 'pry' ; binding.pry
+    %w(scheme host usermail password color debugging).each do |key|
       args[key] = options[key] unless options[key].nil?
     end
     args.delete("cfg_file")

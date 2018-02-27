@@ -11,6 +11,8 @@ DEFAULTS = {
   "host"      => "bugmark.net"       ,
   "usermail"  => "admin@bugmark.net" ,
   "password"  => "bugmark"           ,
+  "cache_dir" => "/tmp/bmx_cache"    ,
+  "color"     => true                ,
   "debugging" => false
 }
 
@@ -88,11 +90,12 @@ class Thor
     def runput(&block)
       result = run(&block).to_hash
       output result
-      # exit(1) if result[:status] == "ERROR"
     end
 
     def output(data)
-      if options[:color]
+      color = config["color"]
+      color = options[:color] unless options[:color].nil?
+      if color
         ap data
       else
         puts JSON.pretty_generate(data)
