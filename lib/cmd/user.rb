@@ -10,15 +10,15 @@ class User < ThorBase
     output(run {user.get_users(opts).map {|x| x.to_hash}})
   end
 
-  desc "show USERMAIL", "show user information"
+  desc "show USER_UUID", "show user information"
   option :offers    , desc: "include offers"    , type: :boolean
   option :positions , desc: "include positions" , type: :boolean
-  def show(usermail)
+  def show(user_uuid)
     opts = {}
     opts[:offers]    = options["offers"]    unless options["offers"].nil?
     opts[:positions] = options["positions"] unless options["positions"].nil?
     user = BmxApiRuby::UsersApi.new(client)
-    runput {user.get_users_email(usermail, opts)}
+    runput {user.get_users_uuid(user_uuid, opts)}
   end
 
   desc "create", "create a user"

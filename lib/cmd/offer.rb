@@ -73,13 +73,47 @@ class Offer < ThorBase
     under_construction
   end
 
-  desc "clone OFFER_UUID", "clone an offer"
-  def clone(_offer_uuid)
-    under_construction
+  desc "create_clone OFFER_UUID", "clone an offer"
+  option :side              , desc: "fixed or unfixed"              , type: :string
+  option :volume            , desc: "number of positions"           , type: :numeric
+  option :price             , desc: "price (between 0.0 and 1.00)"  , type: :numeric
+  option :repo              , desc: "repo UUID"                     , type: :string
+  option :issue             , desc: "issue UUID"                    , type: :string
+  option :title             , desc: "issue title"                   , type: :string
+  option :labels            , desc: "issue labels"                  , type: :string
+  option :status            , desc: "issue status"                  , type: :string
+  option :maturation        , desc: "maturation date (YYMMDD_HHMM)" , type: :string
+  option :maturation_offset , desc: "see long description"          , type: :string
+  option :expiration        , desc: "expiration date (YYMMDD_HHMM)" , type: :string
+  option :expiration_offset , desc: "see long description"          , type: :string
+  option :aon               , desc: "all-or-nothing (true | false)" , type: :boolean
+  option :poolable          , desc: "poolable (true | false)"       , type: :boolean
+  def create_clone(offer_uuid)
+    offer = BmxApiRuby::OffersApi.new(client)
+    opts   = {}
+    %i(side volume price repo issue title labels status maturation expiration aon poolable).each do |el|
+      opts[el] = options[el] unless options[el].nil?
+    end
+    runput {offer.post_offers_uuid_clone(offer_uuid, opts)}
   end
 
-  desc "cancel OFFER_UUID", "cancel an offer"
-  def cancel(_offer_uuid)
-    under_construction
+  desc "create_counter OFFER_UUID", "create a counter offer"
+  def create_counter(offer_uuid)
+    offer = BmxApiRuby::OffersApi.new(client)
+    runput {offer.post_offers_uuid_counter(offer_uuid)}
+  end
+
+  desc "take OFFER_UUID", "create a counter offer and cross it"
+  def take(proto_offer_uuid)
+    offer    = BmxApiRuby::OffersApi.new(client)
+    _result  = offer.post_offers_uuid_counter(proto_offer_uuid)
+    contract = BmxApiRuby::ContractApi.new(client)
+    runput {contract.post_contract_offer_uuid_cross("expand", proto_offer_uuid)}
+  end
+
+  desc "cancel OFFER_UUID", "cancel an open offer"
+  def cancel(offer_uuid)
+    offer = BmxApiRuby::OffersApi.new(client)
+    runput {offer.put_offers_uuid_cancel(offer_uuid)}
   end
 end

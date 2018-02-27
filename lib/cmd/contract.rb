@@ -89,6 +89,18 @@ class Contract < ThorBase
     output(run {contract.get_contract_uuid_escrows(contract_uuid).map {|c| c.to_hash}})
   end
 
+  desc "amendments CONTRACT_UUID", "show contract amendments"
+  def amendments(contract_uuid)
+    contract = BmxApiRuby::ContractApi.new(client)
+    output(run {contract.get_contract_uuid_amendments(contract_uuid).map {|c| c.to_hash}})
+  end
+
+  desc "positions CONTRACT_UUID", "show contract positions"
+  def positions(contract_uuid)
+    contract = BmxApiRuby::ContractApi.new(client)
+    output(run {contract.get_contract_uuid_positions(contract_uuid).map {|c| c.to_hash}})
+  end
+
   desc "open_offers CONTRACT_UUID", "show current open offers"
   def open_offers(contract_uuid)
     contract = BmxApiRuby::ContractApi.new(client)

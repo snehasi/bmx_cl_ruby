@@ -46,7 +46,7 @@ describe "contract create, clone, series, cancel" do
 
   it "gets the right contract count" do
     counts = JSON.parse(`bmx host counts`)
-    expect(counts["contracts"]).to eq(1)
-    expect(counts["events"]).to eq(7)
+    expect(counts["contracts"]).to eq(2)
+    expect(counts["events"]).to eq(6)
   end
 end

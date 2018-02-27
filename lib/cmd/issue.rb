@@ -13,6 +13,13 @@ class Issue < ThorBase
     runput { issue.get_issues_issue_exid(issue_exid, {}) }
   end
 
+
+  desc "contracts ISSUE_EXID", "show issue contracts"
+  def contracts(issue_exid)
+    issue  = BmxApiRuby::IssuesApi.new(client)
+    output(run {issue.get_issues_issue_exid_contracts(issue_exid).map {|c| c.to_hash}})
+  end
+
   desc "sync ISSUE_EXID", "create or update an issue"
   option :exid       , desc: "TBD" , type: :string
   option :repo_uuid  , desc: "UUID of issue repository" , type: :string
