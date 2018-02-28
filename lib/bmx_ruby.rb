@@ -14,6 +14,7 @@ require_relative "./cmd/escrow"
 require_relative "./cmd/position"
 require_relative "./cmd/event"
 require_relative "./cmd/host"
+require_relative "./cmd/cache"
 
 class BmxRuby < Thor
   desc "config SUBCOMMAND", "set BMX host and user credentials"
@@ -45,6 +46,9 @@ class BmxRuby < Thor
 
   desc "event SUBCOMMAND", "manage event"
   subcommand "event", Event
+
+  desc "cache SUBCOMMAND", "manage local cache"
+  subcommand "cache", Cache
 end
 
 

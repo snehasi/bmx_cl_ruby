@@ -1,21 +1,25 @@
+require 'pry'
+
 class Offer < ThorBase
   desc "list", "list offers"
-  option :with_type   , desc: "type query"    , type: :string
-  option :with_status , desc: "status query"  , type: :string
-  option :limit       , desc: "limit"         , type: :numeric
+  option :with_type   , desc: "type query"       , type: :string
+  option :with_status , desc: "status query"     , type: :string
+  option :limit       , desc: "limit"            , type: :numeric
+  option :cache_file  , desc: "local cache file" , type: :string
   def list
     list = BmxApiRuby::OffersApi.new(client)
     opts = {}
-    opts[:with_type] = options[:with_type]   if options[:with_type]
-    opts[:status]    = options[:status] if options[:status]
-    opts[:limit]     = options[:limit]  if options[:limit]
-    output list.get_offers(opts).map {|offer| offer.to_hash}
+    opts[:with_type] = options[:with_type] if options[:with_type]
+    opts[:status]    = options[:status]    if options[:status]
+    opts[:limit]     = options[:limit]     if options[:limit]
+    cache_file       = options["cache_file"] || "offers"
+    output(list.get_offers(opts).map {|offer| offer.to_hash}, cache_file)
   end
 
   desc "show OFFER_UUID", "show an offer"
   def show(offer_uuid)
     offer = BmxApiRuby::OffersApi.new(client)
-    runput { offer.get_offers_uuid(offer_uuid) }
+    runput { offer.get_offers_uuid(cached_value(offer_uuid)) }
   end
 
   desc "create_buy", "create a buy offer"
@@ -26,17 +30,17 @@ class Offer < ThorBase
     offset.  Offsets are time projected forward from the current system time.
     valid offset strings include:
 
-      - minutes(count)
-      - hours(count)
-      - days(count)
-      - weeks(count)
-      - months(count)
-      - end_of_today
-      - end_of_tomorrow
-      - end_of_hour(count)
-      - end_of_day(count)
-      - end_of_week(count)
-      - end_of_month(count)
+        - minutes-count
+        - hours-count
+        - days-count
+        - weeks-count
+        - months-count
+        - end_of_today
+        - end_of_tomorrow
+        - end_of_hour-count
+        - end_of_day-count
+        - end_of_week-count
+        - end_of_month-count
 
      Use a positive integer for options that take a count.
 
@@ -62,8 +66,11 @@ class Offer < ThorBase
     volume = options[:volume]
     price  = options[:price]
     opts   = {}
-    %i(repo issue title labels status maturation expiration aon poolable).each do |el|
+    %i(title labels status maturation expiration aon poolable).each do |el|
       opts[el] = options[el] unless options[el].nil?
+    end
+    %i(repo issue).each do |el|
+      opts[el] = cached_value(options[el]) unless options[el].nil?
     end
     runput {offer.post_offers_buy(side, volume, price, opts)}
   end
@@ -91,8 +98,11 @@ class Offer < ThorBase
   def create_clone(offer_uuid)
     offer = BmxApiRuby::OffersApi.new(client)
     opts   = {}
-    %i(side volume price repo issue title labels status maturation expiration aon poolable).each do |el|
+    %i(side volume price title labels status maturation expiration aon poolable).each do |el|
       opts[el] = options[el] unless options[el].nil?
+    end
+    %i(repo issue).each do |el|
+      opts[el] = cached_value(options[el]) unless options[el].nil?
     end
     runput {offer.post_offers_uuid_clone(offer_uuid, opts)}
   end
@@ -100,20 +110,21 @@ class Offer < ThorBase
   desc "create_counter OFFER_UUID", "create a counter offer"
   def create_counter(offer_uuid)
     offer = BmxApiRuby::OffersApi.new(client)
-    runput {offer.post_offers_uuid_counter(offer_uuid)}
+    runput {offer.post_offers_uuid_counter(cached_value(offer_uuid))}
   end
 
   desc "take OFFER_UUID", "create a counter offer and cross it"
   def take(proto_offer_uuid)
+    puuid    = cached_value(proto_offer_uuid)
     offer    = BmxApiRuby::OffersApi.new(client)
-    _result  = offer.post_offers_uuid_counter(proto_offer_uuid)
+    _result  = offer.post_offers_uuid_counter(puuid)
     contract = BmxApiRuby::ContractApi.new(client)
-    runput {contract.post_contract_offer_uuid_cross("expand", proto_offer_uuid)}
+    runput {contract.post_contract_offer_uuid_cross("expand", puuid)}
   end
 
   desc "cancel OFFER_UUID", "cancel an open offer"
   def cancel(offer_uuid)
     offer = BmxApiRuby::OffersApi.new(client)
-    runput {offer.put_offers_uuid_cancel(offer_uuid)}
+    runput {offer.put_offers_uuid_cancel(cached_value(offer_uuid))}
   end
 end

@@ -1,8 +1,10 @@
 class Repo < ThorBase
   desc "list", "list all repos"
+  option :cache_file  , desc: "local cache file"  , type: :string
   def list
     list = BmxApiRuby::ReposApi.new(client)
-    output list.get_repos.map {|repo| repo.to_hash}
+    cache_file = options["cache_file"] || "repos"
+    output(list.get_repos.map {|repo| repo.to_hash}, cache_file)
   end
 
   desc "show REPO_UUID", "show repo details"
@@ -11,11 +13,11 @@ class Repo < ThorBase
     opts = {}
     opts[:issues] = options["issues"] unless options["issues"].nil?
     repo = BmxApiRuby::ReposApi.new(client)
-    runput { repo.get_repos_uuid(repo_uuid, opts) }
+    runput { repo.get_repos_uuid(cached_value(repo_uuid), opts) }
   end
 
   desc "create NAME", "create repo"
-  option :type, desc: "repo type", type: :string, values: %w(GitHub Test), required: true
+  option :type, desc: "repo type", type: :string, values: %w(GitHub Test), default: "Test"
   option :sync, desc: "sync repo on creation (GH only)", type: :boolean
   def create(repo_name)
     repo = BmxApiRuby::ReposApi.new(client)

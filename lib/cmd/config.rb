@@ -30,12 +30,11 @@ class Config < ThorBase
 
     Configuration settings are stored in #{CFG_FILE}.
 
-    The current host is #{config[:host]}
+    The current host is #{config["host"]}
   EOF
   def set
     args = config
-    require 'pry' ; binding.pry
-    %w(scheme host usermail password color debugging).each do |key|
+    %w(scheme host usermail password cache_dir color debugging).each do |key|
       args[key] = options[key] unless options[key].nil?
     end
     args.delete("cfg_file")

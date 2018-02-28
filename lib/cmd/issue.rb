@@ -1,18 +1,19 @@
 class Issue < ThorBase
   desc "list", "list all issues"
-  option :limit , desc: "limit number of issues" , type: :numeric
+  option :limit      , desc: "limit number of issues" , type: :numeric
+  option :cache_file , desc: "local cache file"       , type: :string
   def list
     opts = options[:limit] ? {limit: options[:limit]} : {}
     list = BmxApiRuby::IssuesApi.new(client)
-    output(run {list.get_issues(opts).map {|issue| issue.to_hash}})
+    cache_file = options["cache_file"] || "issues"
+    output(run {list.get_issues(opts).map {|issue| issue.to_hash}}, cache_file)
   end
 
   desc "show ISSUE_EXID", "show issue details"
   def show(issue_exid)
     issue  = BmxApiRuby::IssuesApi.new(client)
-    runput { issue.get_issues_issue_exid(issue_exid, {}) }
+    runput { issue.get_issues_issue_exid(cached_value(issue_exid), {}) }
   end
-
 
   desc "contracts ISSUE_EXID", "show issue contracts"
   def contracts(issue_exid)
@@ -28,8 +29,11 @@ class Issue < ThorBase
   option :labels     , desc: "TBD" , type: :string
   def sync(exid)
     opts = {}
-    %i(uuid repo_uuid title status labels).each do |lbl|
+    %i(uuid title status labels).each do |lbl|
       opts[lbl] = options[lbl] if options[lbl]
+    end
+    %i(repo_uuid).each do |el|
+      opts[el] = cached_value(options[el]) unless options[el].nil?
     end
     issue  = BmxApiRuby::IssuesApi.new(client)
     runput { issue.post_issues_exid(exid, opts) }

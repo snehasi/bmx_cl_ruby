@@ -22,7 +22,8 @@ class Thor
     def config(file = CFG_FILE)
       xaf = File.expand_path(file)
       val = File.exist?(xaf) ? YAML.load_file(xaf) : {}
-      {"cfg_file" => CFG_FILE}.merge(DEFAULTS.merge(Hash[val.map {|k,v| [k.to_s, v]}]))
+      var = Hash[val.map {|k, v| [k.to_s, v]}]
+      {"cfg_file" => CFG_FILE}.merge(DEFAULTS.merge(var))
     end
 
     def help(shell, subcommand = false)
@@ -62,6 +63,54 @@ class Thor
       self.class.config(file)
     end
 
+    def make_cache_dir
+      system "mkdir -p #{config["cache_dir"]}"
+    end
+
+    def cached_value(string)
+      return string unless /^cached_/ =~ string
+      begin
+        _unused, file, element, selector = string.split("_")
+        list = JSON.parse(cache_show_helper(file))
+        case selector
+          when "first" then list.first[element]
+          when "last"  then list.last[element]
+          when "sample" then list.sample[element]
+          else list[selector.to_i][element]
+        end
+      rescue
+        string
+      end
+    end
+
+    def cache_list_helper
+      make_cache_dir
+      files = Dir.glob(config["cache_dir"] + "/*.json").map do |x|
+        File.basename(x, ".json")
+      end
+      {cache_dir: config["cache_dir"], cache_files: files}
+    end
+
+    def cache_show_helper(file)
+      make_cache_dir
+      fname = config["cache_dir"] + "/" + file.gsub(".json", "") + ".json"
+      File.exists?(fname) ? File.read(fname) : "NOT FOUND"
+    end
+
+    def cache_clear_helper(file = nil)
+      make_cache_dir
+      tgt = file ? file.gsub(".json", "") : "*"
+      fname = config["cache_dir"] + "/" + tgt + ".json"
+      system("rm -f #{fname}")
+    end
+
+    def cache_write_helper(file, text)
+      make_cache_dir
+      return if file.nil?
+      fname = config["cache_dir"] + "/" + file.gsub(".json", "") + ".json"
+      File.open(fname, 'w') {|f| f.puts text}
+    end
+
     def error_msg(error)
       err = { status: "ERROR" }
       body = -> {
@@ -92,9 +141,10 @@ class Thor
       output result
     end
 
-    def output(data)
+    def output(data, cache_file = nil)
       color = config["color"]
       color = options[:color] unless options[:color].nil?
+      cache_write_helper(cache_file, JSON.pretty_generate(data))
       if color
         ap data
       else

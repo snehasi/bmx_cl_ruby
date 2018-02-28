@@ -3,11 +3,13 @@ require 'pry'
 class User < ThorBase
   desc "list", "list users"
   option :with_email  , desc: "filter by email"   , type: :string
+  option :cache_file  , desc: "local cache file"  , type: :string
   def list
     user = BmxApiRuby::UsersApi.new(client)
     opts = {}
     opts[:with_email] = options["with_email"] if options["with_email"]
-    output(run {user.get_users(opts).map {|x| x.to_hash}})
+    cache_file = options["cache_file"] || "users"
+    output(run {user.get_users(opts).map {|x| x.to_hash}}, cache_file)
   end
 
   desc "show USER_UUID", "show user information"
@@ -18,7 +20,7 @@ class User < ThorBase
     opts[:offers]    = options["offers"]    unless options["offers"].nil?
     opts[:positions] = options["positions"] unless options["positions"].nil?
     user = BmxApiRuby::UsersApi.new(client)
-    runput {user.get_users_uuid(user_uuid, opts)}
+    runput {user.get_users_uuid(cached_value(user_uuid), opts)}
   end
 
   desc "create", "create a user"
@@ -28,7 +30,7 @@ class User < ThorBase
     Default balance is zero.
   EOF
   option :usermail , desc: "USERMAIL" , type: :string, required: true
-  option :password , desc: "PASSWORD" , type: :string, required: true
+  option :password , desc: "PASSWORD" , type: :string, default: "bugpass"
   option :balance  , desc: "BALANCE"  , type: :numeric
   def create
     user = BmxApiRuby::UsersApi.new(client)
@@ -40,7 +42,7 @@ class User < ThorBase
   desc "deposit UUID AMOUNT", "deposit user tokens"
   def deposit(uuid, amount)
     user = BmxApiRuby::UsersApi.new(client)
-    output user.put_users_uuid_deposit(amount, uuid)
+    output user.put_users_uuid_deposit(amount, cached_value(uuid))
   end
 
   desc "withdraw UUID AMOUNT", "withdraw user tokens"

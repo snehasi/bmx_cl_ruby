@@ -48,23 +48,6 @@ class Host < ThorBase
     runput { date.put_host_increment_hour_offset(opts) }
   end
 
-  desc "list_cache", "show cache files"
-  def list_cache
-    under_construction
-  end
-
-  desc "show_cache", "show cache file"
-  option :file , desc: "file name", type: :string, required: true
-  def show_cache
-    under_construction
-  end
-
-  desc "clear_cache", "clear cache files"
-  option :file , desc: "cache file name (default all files)", type: :string
-  def increment_hour_offset
-    under_construction
-  end
-
   desc "set_current_time", "set current clock time"
   long_desc <<~EOF
     Reset the time offsets to zero.  This only works if the current time
@@ -103,6 +86,7 @@ class Host < ThorBase
   def rebuild
     date = BmxApiRuby::HostApi.new(client)
     abort "ERROR: must use '--affirm=destroy_all_data'" unless options[:affirm] == "destroy_all_data"
+    cache_clear_helper
     opts = {}
     offset = options[:with_day_offset]
     opts[:with_day_offset] = offset if offset

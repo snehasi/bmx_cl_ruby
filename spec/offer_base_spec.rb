@@ -22,7 +22,8 @@ describe "create_buy" do
       "issue"      => issue_uuid           ,
       "userspec"   => "tst@bugm.net:bugm"
     }.map {|k, v| "--#{k}=#{v}"}.join(" ")
-    result = `bmx offer create_buy #{opts}`
+    cmd = "bmx offer create_buy #{opts}"
+    result = `#{cmd}`
     expect($?.exitstatus).to eq(0)
     expect(result).to_not be_nil
   end
@@ -130,17 +131,4 @@ describe "cancel" do
   end
 end
 
-describe "take" do
-  it "takes an offer" do
-    offer_uuid = JSON.parse(`bmx offer list`).first["uuid"]
-    result     = `bmx offer take #{offer_uuid}`
-    expect($?.exitstatus).to eq(0)
-    expect(result).to_not be_nil
-  end
 
-  it "gets the right count" do
-    counts = JSON.parse(`bmx host counts`)
-    expect(counts["contracts"]).to eq(1)
-    expect(counts["offers"]).to eq(3)
-  end
-end
