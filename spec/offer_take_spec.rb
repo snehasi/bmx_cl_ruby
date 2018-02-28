@@ -87,9 +87,9 @@ describe "resolve" do
   it "has the right user balances" do
     `bmx user list --with-email=admin --cache-file=admin`
     res1 = `bmx cache value --expression=cached_admin_balance_first`
-    expect(res1.chomp).to eq("998.0")
+    expect(res1.chomp).to eq("1008.0")
     `bmx user list --with-email=worker --cache-file=worker`
     res2 = `bmx cache value --expression=cached_worker_balance_last`
-    expect(res2.chomp).to eq("994.0")
+    expect(res2.chomp).to eq("992.0")
   end
 end
