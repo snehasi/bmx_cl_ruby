@@ -30,17 +30,17 @@ class Offer < ThorBase
     offset.  Offsets are time projected forward from the current system time.
     valid offset strings include:
 
-        - minutes-count
-        - hours-count
-        - days-count
-        - weeks-count
-        - months-count
+        - minutes-COUNT
+        - hours-COUNT
+        - days-COUNT
+        - weeks-COUNT
+        - months-COUNT
         - end_of_today
         - end_of_tomorrow
-        - end_of_hour-count
-        - end_of_day-count
-        - end_of_week-count
-        - end_of_month-count
+        - end_of_hour-COUNT
+        - end_of_day-COUNT
+        - end_of_week-COUNT
+        - end_of_month-COUNT
 
      Use a positive integer for options that take a count.
 
@@ -66,7 +66,7 @@ class Offer < ThorBase
     volume = options[:volume]
     price  = options[:price]
     opts   = {}
-    %i(title labels status maturation expiration aon poolable).each do |el|
+    %i(title labels status maturation maturation_offset expiration expiration_offset aon poolable).each do |el|
       opts[el] = options[el] unless options[el].nil?
     end
     %i(repo issue).each do |el|
