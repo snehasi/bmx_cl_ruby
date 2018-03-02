@@ -59,8 +59,8 @@ describe "create_buy" do
   it "gets the right count" do
     counts = JSON.parse(`bmx host counts`)
     expect(counts["offers"]).to eq(3)
-    expect(counts["bu_offers"]).to eq(2)
-    expect(counts["bf_offers"]).to eq(1)
+    expect(counts["offers_open_bu"]).to eq(2)
+    expect(counts["offers_open_bf"]).to eq(1)
   end
 end
 
@@ -113,7 +113,7 @@ describe "counter" do
 
   it "gets the right count" do
     counts = JSON.parse(`bmx host counts`)
-    expect(counts["offers"]).to eq(5)
+    expect(counts["offers_open"]).to eq(5)
   end
 end
 
@@ -127,7 +127,8 @@ describe "cancel" do
 
   it "gets the right count" do
     counts = JSON.parse(`bmx host counts`)
-    expect(counts["offers"]).to eq(4)
+    expect(counts["offers"]).to      eq(5)
+    expect(counts["offers_open"]).to eq(4)
   end
 end
 

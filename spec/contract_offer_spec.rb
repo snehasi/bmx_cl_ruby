@@ -72,8 +72,8 @@ describe "offer" do
 
     it "gets the right count" do
       counts = JSON.parse(`bmx host counts`)
-      expect(counts["bu_offers"]).to eq(2)
-      expect(counts["bf_offers"]).to eq(1)
+      expect(counts["offers_open_bu"]).to eq(2)
+      expect(counts["offers_open_bf"]).to eq(1)
     end
 
     it "lists offers" do

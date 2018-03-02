@@ -54,13 +54,13 @@ describe "setup" do
   it "starts with the right counts" do
     info   = JSON.parse(`bmx host info`)
     counts = JSON.parse(`bmx host counts`)
-    expect(info["day_offset"]).to  eq(0)
-    expect(counts["num_users"]).to eq(3)
-    expect(counts["bu_offers"]).to eq(0)
-    expect(counts["bf_offers"]).to eq(0)
-    expect(counts["contracts"]).to eq(1)
-    expect(counts["positions"]).to eq(2)
-    expect(counts["events"]).to eq(20)
+    expect(info["day_offset"]).to       eq(0)
+    expect(counts["users"]).to          eq(3)
+    expect(counts["offers_open_bu"]).to eq(0)
+    expect(counts["offers_open_bf"]).to eq(0)
+    expect(counts["contracts"]).to      eq(1)
+    expect(counts["positions"]).to      eq(2)
+    expect(counts["events"]).to         eq(20)
   end
 end
 
@@ -83,20 +83,21 @@ describe "contract resolve" do
   it "ends with the right counts" do
     info   = JSON.parse(`bmx host info`)
     counts = JSON.parse(`bmx host counts`)
-    expect(info["day_offset"]).to  eq(0)
-    expect(counts["num_users"]).to eq(3)
-    expect(counts["bu_offers"]).to eq(0)
-    expect(counts["bf_offers"]).to eq(0)
-    expect(counts["contracts"]).to eq(0)
-    expect(counts["positions"]).to eq(2)
-    expect(counts["events"]).to eq(24)
+    expect(info["day_offset"]).to       eq(0)
+    expect(counts["users"]).to          eq(3)
+    expect(counts["offers_open_bu"]).to eq(0)
+    expect(counts["offers_open_bf"]).to eq(0)
+    expect(counts["contracts"]).to      eq(1)
+    expect(counts["contracts_open"]).to eq(0)
+    expect(counts["positions"]).to      eq(2)
+    expect(counts["events"]).to         eq(24)
   end
 
   it "ends with the right user balances" do
     users = JSON.parse(`bmx user list`)
     usr1  = users.select {|el| el["email"] == "tst1@bugm.net"}.first
     usr2  = users.select {|el| el["email"] == "tst2@bugm.net"}.first
-    expect(usr1["balance"]).to eq(992.0)
-    expect(usr2["balance"]).to eq(1008.0)
+    expect(usr1["balance"]).to eq(1002.0)
+    expect(usr2["balance"]).to eq(998.0)
   end
 end

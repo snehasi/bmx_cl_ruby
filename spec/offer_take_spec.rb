@@ -16,9 +16,9 @@ describe "setup" do
 
   it "has the right counts" do
     result = JSON.parse(`bmx host counts`)
-    expect(result["num_users"]).to eq(2)
-    expect(result["num_repos"]).to eq(1)
-    expect(result["num_issues"]).to eq(1)
+    expect(result["users"]).to  eq(2)
+    expect(result["repos"]).to  eq(1)
+    expect(result["issues"]).to eq(1)
   end
 end
 
@@ -56,8 +56,9 @@ describe "take" do
 
   it "gets the right count" do
     counts = JSON.parse(`bmx host counts`)
-    expect(counts["contracts"]).to eq(1)
-    expect(counts["offers"]).to eq(0)
+    expect(counts["contracts"]).to   eq(1)
+    expect(counts["offers"]).to      eq(2)
+    expect(counts["offers_open"]).to eq(0)
   end
 
   it "has the right user balances" do
@@ -81,15 +82,15 @@ describe "resolve" do
 
   it "gets the right count" do
     counts = JSON.parse(`bmx host counts`)
-    expect(counts["contracts"]).to eq(0)
+    expect(counts["contracts_open"]).to eq(0) #
   end
 
   it "has the right user balances" do
     `bmx user list --with-email=admin --cache-file=admin`
     res1 = `bmx cache value --expression=cached_admin_balance_first`
-    expect(res1.chomp).to eq("1008.0")
+    expect(res1.chomp).to eq("998.0")
     `bmx user list --with-email=worker --cache-file=worker`
     res2 = `bmx cache value --expression=cached_worker_balance_last`
-    expect(res2.chomp).to eq("992.0")
+    expect(res2.chomp).to eq("1002.0")
   end
 end

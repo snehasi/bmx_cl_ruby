@@ -16,7 +16,7 @@ describe "repo/issues" do
 
     it "returns the right count" do
       result = JSON.parse(`bmx host counts`)
-      expect(result["num_repos"]).to eq(1)
+      expect(result["repos"]).to eq(1)
     end
   end
 
@@ -39,7 +39,7 @@ describe "repo/issues" do
 
     it "returns the right count" do
       result = JSON.parse(`bmx host counts`)
-      expect(result["num_issues"]).to eq(1)
+      expect(result["issues"]).to eq(1)
     end
 
     it "lists issues" do

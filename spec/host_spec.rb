@@ -50,7 +50,7 @@ describe "host" do
 
     it "generates correct counts" do
       result = JSON.parse(`bmx host counts`)
-      expect(result["num_users"]).to eq(1)
+      expect(result["users"]).to eq(1)
     end
   end
 
