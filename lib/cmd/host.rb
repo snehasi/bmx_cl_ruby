@@ -86,7 +86,6 @@ class Host < ThorBase
   def rebuild
     date = BmxApiRuby::HostApi.new(client)
     abort "ERROR: must use '--affirm=destroy_all_data'" unless options[:affirm] == "destroy_all_data"
-    cache_clear_helper
     opts = {}
     offset = options[:with_day_offset]
     opts[:with_day_offset] = offset if offset

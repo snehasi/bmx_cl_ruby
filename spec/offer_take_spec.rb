@@ -82,7 +82,7 @@ describe "resolve" do
 
   it "gets the right count" do
     counts = JSON.parse(`bmx host counts`)
-    expect(counts["contracts_open"]).to eq(0) #
+    expect(counts["contracts_open"]).to eq(0)
   end
 
   it "has the right user balances" do
