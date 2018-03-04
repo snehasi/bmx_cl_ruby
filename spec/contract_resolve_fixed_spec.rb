@@ -1,6 +1,6 @@
 require 'json'
 
-describe "payout closed issue"
+describe "payout closed issue" do
   describe "setup" do
     it "creates test elements" do
       `bmx host rebuild --affirm=destroy_all_data --with_day_offset=-90`
