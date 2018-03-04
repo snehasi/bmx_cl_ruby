@@ -69,7 +69,7 @@ describe "payout open issue"
       expect(counts["offers_open_bf"]).to eq(0)
       expect(counts["contracts"]).to      eq(1)
       expect(counts["positions"]).to      eq(2)
-      expect(counts["events"]).to         eq(20)
+      expect(counts["events"]).to         eq(21)
     end
   end
 
@@ -100,7 +100,7 @@ describe "payout open issue"
       expect(counts["contracts"]).to      eq(1)
       expect(counts["contracts_open"]).to eq(0)
       expect(counts["positions"]).to      eq(2)
-      expect(counts["events"]).to         eq(24)
+      expect(counts["events"]).to         eq(25)
     end
 
     it "ends with the right user balances" do
