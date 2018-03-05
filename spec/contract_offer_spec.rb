@@ -6,7 +6,9 @@ describe "setup" do
     `bmx user create --usermail=tst@bugm.net --password=bugm --balance=1000`
     repo_uuid = JSON.parse(`bmx repo create BING --type=Test`)["uuid"]
     `bmx issue sync IXID --repo-uuid=#{repo_uuid}`
+    repo_count = JSON.parse(`bmx repo show #{repo_uuid}`)
     expect($?.exitstatus).to eq(0)
+    expect(repo_count).issue_count eq(1)
   end
 end
 
@@ -152,4 +154,3 @@ describe "contract" do
     end
   end
 end
-
