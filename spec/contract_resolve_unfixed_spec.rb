@@ -105,8 +105,8 @@ describe "payout open issue" do
       users = JSON.parse(`bmx user list`)
       usr1  = users.select {|el| el["email"] == "tst1@bugm.net"}.first
       usr2  = users.select {|el| el["email"] == "tst2@bugm.net"}.first
-      expect(usr1["balance"]).to eq(992.0)
-      expect(usr2["balance"]).to eq(1008.0)
+      expect(usr1["balance"]).to eq(1002.0)
+      expect(usr2["balance"]).to eq( 998.0)
     end
   end
 end

@@ -6,11 +6,8 @@ describe "setup" do
     `bmx host rebuild --affirm=destroy_all_data`
     `bmx user create --usermail=tst@bugm.net --password=bugm --balance=1000`
     repo_uuid = JSON.parse(`bmx repo create BING`)["uuid"]
-    binding.pry
     result    = JSON.parse(`bmx issue sync IXID --repo-uuid=#{repo_uuid}`)
-    binding.pry
     repo      = JSON.parse(`bmx repo show #{repo_uuid}`)
-    binding.pry
     expect($?.exitstatus).to eq(0)
     expect(repo["issue_count"]).to eq(1)
   end

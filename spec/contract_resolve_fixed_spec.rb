@@ -54,9 +54,7 @@ describe "payout closed issue" do
     end
 
     it "resets the system date" do
-      binding.pry
       result = `bmx host set_current_time`
-      binding.pry
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
