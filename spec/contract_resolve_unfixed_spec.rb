@@ -62,7 +62,6 @@ describe "payout open issue" do
     it "starts with the right counts" do
       info   = JSON.parse(`bmx host info`)
       counts = JSON.parse(`bmx host counts`)
-      print counts
       expect(info["day_offset"]).to       eq(0)
       expect(counts["users"]).to          eq(3)
       expect(counts["offers_open_bu"]).to eq(0)
@@ -92,7 +91,6 @@ describe "payout open issue" do
     it "ends with the right counts" do
       info   = JSON.parse(`bmx host info`)
       counts = JSON.parse(`bmx host counts`)
-      print counts
       expect(info["day_offset"]).to       eq(0)
       expect(counts["users"]).to          eq(3)
       expect(counts["offers_open_bu"]).to eq(0)

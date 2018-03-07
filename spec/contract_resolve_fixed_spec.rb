@@ -54,7 +54,9 @@ describe "payout closed issue" do
     end
 
     it "resets the system date" do
+      binding.pry
       result = `bmx host set_current_time`
+      binding.pry
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
@@ -62,7 +64,6 @@ describe "payout closed issue" do
     it "starts with the right counts" do
       info   = JSON.parse(`bmx host info`)
       counts = JSON.parse(`bmx host counts`)
-      print counts
       expect(info["day_offset"]).to       eq(0)
       expect(counts["users"]).to          eq(3)
       expect(counts["offers_open_bu"]).to eq(0)
@@ -92,7 +93,6 @@ describe "payout closed issue" do
     it "ends with the right counts" do
       info   = JSON.parse(`bmx host info`)
       counts = JSON.parse(`bmx host counts`)
-      print counts
       expect(info["day_offset"]).to       eq(0)
       expect(counts["users"]).to          eq(3)
       expect(counts["offers_open_bu"]).to eq(0)
