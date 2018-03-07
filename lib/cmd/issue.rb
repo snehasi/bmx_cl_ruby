@@ -15,10 +15,16 @@ class Issue < ThorBase
     runput { issue.get_issues_issue_exid(cached_value(issue_exid), {}) }
   end
 
+  desc "offers ISSUE_EXID", "show issue offers"
+  def offers(issue_exid)
+    issue  = BmxApiRuby::IssuesApi.new(client)
+    output(run {issue.get_issues_issue_exid_offers(cached_value(issue_exid)).map {|c| c.to_hash}})
+  end
+
   desc "contracts ISSUE_EXID", "show issue contracts"
   def contracts(issue_exid)
     issue  = BmxApiRuby::IssuesApi.new(client)
-    output(run {issue.get_issues_issue_exid_contracts(issue_exid).map {|c| c.to_hash}})
+    output(run {issue.get_issues_issue_exid_contracts(cached_value(issue_exid)).map {|c| c.to_hash}})
   end
 
   desc "sync ISSUE_EXID", "create or update an issue"
