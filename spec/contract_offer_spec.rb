@@ -1,5 +1,4 @@
 require 'json'
-require 'pry'
 
 describe "setup" do
   it "creates test elements" do
@@ -135,12 +134,25 @@ describe "contract" do
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
+    
+    it "gets the right contract counts" do
+      result = JSON.parse(`bmx contract show cached_contracts_uuid_first`)
+      expect(result["total_value"]).to eq(10)
+      expect(result["awardee"]).to     eq("fixed")
+    end
   end
 
   describe "escrows" do
     it "shows contract escrows" do
-      contract_uuid = JSON.parse(`bmx contract list`).first["uuid"]
-      result = JSON.parse(`bmx contract escrows #{contract_uuid}`)
+      result = JSON.parse(`bmx contract escrows cached_contracts_uuid_first`)
+      expect($?.exitstatus).to eq(0)
+      expect(result).to_not be_nil
+    end
+  end
+
+  describe "escrows" do
+    it "shows contract escrows" do
+      result = JSON.parse(`bmx contract positions cached_contracts_uuid_first`)
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
@@ -148,8 +160,7 @@ describe "contract" do
 
   describe "open_offers" do
     it "shows contract open_offers" do
-      contract_uuid = JSON.parse(`bmx contract list`).first["uuid"]
-      result = JSON.parse(`bmx contract open_offers #{contract_uuid}`)
+      result = JSON.parse(`bmx contract open_offers cached_contracts_uuid_first`)
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
