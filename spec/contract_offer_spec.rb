@@ -106,8 +106,8 @@ describe "contract" do
 
   describe "cross" do
     it "makes a cross" do
-      offer_uuid = JSON.parse(`bmx offer list`).first["uuid"]
-      result     = `bmx contract cross #{offer_uuid} --commit-type=expand`
+      `bmx offer list`
+      result     = `bmx contract cross cached_offers_uuid_first`
       expect($?.exitstatus).to eq(0)
       expect(result).to_not be_nil
     end
