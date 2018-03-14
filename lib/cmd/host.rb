@@ -48,6 +48,30 @@ class Host < ThorBase
     runput { date.put_host_increment_hour_offset(opts) }
   end
 
+  desc "go_past_end_of_day", "move system clock past end of day"
+  option :count , desc: "count increment", type: :numeric
+  def go_past_end_of_day
+    date = BmxApiRuby::HostApi.new(client)
+    opts = options[:count] ? {count: options[:count]} : {}
+    runput { date.put_host_go_past_end_of_day(opts) }
+  end
+
+  desc "go_past_end_of_week", "move system clock past end of week"
+  option :count , desc: "count increment", type: :numeric
+  def go_past_end_of_week
+    date = BmxApiRuby::HostApi.new(client)
+    opts = options[:count] ? {count: options[:count]} : {}
+    runput { date.put_host_go_past_end_of_week(opts) }
+  end
+
+  desc "go_past_end_of_month", "move system clock past end of month"
+  option :count , desc: "count increment", type: :numeric
+  def go_past_end_of_month
+    date = BmxApiRuby::HostApi.new(client)
+    opts = options[:count] ? {count: options[:count]} : {}
+    runput { date.put_host_go_past_end_of_month(opts) }
+  end
+
   desc "set_current_time", "set current clock time"
   long_desc <<~EOF
     Reset the time offsets to zero.  This only works if the current time

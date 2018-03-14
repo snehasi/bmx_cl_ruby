@@ -78,12 +78,6 @@ class Contract < ThorBase
     runput { contract.put_contract_uuid_resolve(cached_value(contract_uuid)) }
   end
 
-  desc "series CONTRACT_UUID", "show contract series"
-  def series(contract_uuid)
-    contract = BmxApiRuby::ContractApi.new(client)
-    runput { contract.put_contract_uuid_resolve(cached_value(contract_uuid)) }
-  end
-
   desc "escrows CONTRACT_UUID", "show contract escrows"
   def escrows(contract_uuid)
     contract = BmxApiRuby::ContractApi.new(client)

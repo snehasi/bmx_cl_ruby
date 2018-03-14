@@ -126,4 +126,24 @@ describe "host" do
       expect(result["hour_offset"]).to eq(0)
     end
   end
+
+  describe "time jumps" do
+    it "goes past end of day" do
+      result = JSON.parse(`bmx host go_past_end_of_day`)
+      expect($?.exitstatus).to eq(0)
+      expect(result).to_not be_nil
+    end
+
+    it "goes past end of week" do
+      result = JSON.parse(`bmx host go_past_end_of_week`)
+      expect($?.exitstatus).to eq(0)
+      expect(result).to_not be_nil
+    end
+
+    it "goes past end of month" do
+      result = JSON.parse(`bmx host go_past_end_of_month`)
+      expect($?.exitstatus).to eq(0)
+      expect(result).to_not be_nil
+    end
+  end
 end
